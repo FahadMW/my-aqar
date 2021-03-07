@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.row {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+}
+
+.half-opacity {
+    opacity: 0.5;
+}

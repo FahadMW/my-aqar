@@ -1,0 +1,27 @@
+<div class="container">
+  <h4>عدد شقق عقار: {{ aqarCount }}</h4>
+<div class="row">
+  <div *ngFor="let flat of flats" class="col-lg-4 col-md-6 col-12">
+    <div class="card"  [class.border-primary]="!flat.seen" [class.half-opacity]="flat.canceled">
+      <div class="card-img-top" style="overflow: scroll;height: 250px;display: flex;">
+        <img *ngFor="let image of flat.imgs" [src]="'https://images.aqar.fm/'+image" class="card-img-top" style="object-fit: contain;">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h5 class="card-title">{{ flat.district }}</h5>
+          <div>
+            <button type="button" class="btn p-0" [class]="flat.rating >= 1 ? 'text-warning' : 'text-black-50'" (click)="rate(1, flat)">★</button>
+            <button type="button" class="btn p-0" [class]="flat.rating >= 2 ? 'text-warning' : 'text-black-50'" (click)="rate(2, flat)">★</button>
+            <button type="button" class="btn p-0" [class]="flat.rating >= 3 ? 'text-warning' : 'text-black-50'" (click)="rate(3, flat)">★</button>
+            <button type="button" class="btn p-0" [class]="flat.rating >= 4 ? 'text-warning' : 'text-black-50'" (click)="rate(4, flat)">★</button>
+            <button type="button" class="btn p-0" [class]="flat.rating >= 5 ? 'text-warning' : 'text-black-50'" (click)="rate(5, flat)">★</button>
+          </div>
+        </div>
+        <h6>{{ flat.price }} ريال</h6>
+        <p class="card-text" style="height: 150px;overflow: auto;">{{ flat.content }}</p>
+        <a [href]="'https://sa.aqar.fm'+flat.path" target="_blank" class="btn btn-link">رابط عقار</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
