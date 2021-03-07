@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { concat, forkJoin, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,9 @@ export class AppService {
 
   list() {
     return forkJoin([
-      // this.http.get<{[id: string]: Flat}>(`http://localhost:3000/rating`),
-      // this.http.get<{[id: string]: boolean}>(`http://localhost:3000/seen`),
-      this.http.get<{[id: string]: Flat}>(`http://localhost:3000/flats`),
+      // this.http.get<{[id: string]: Flat}>(`${environment.baseUrl}/rating`),
+      // this.http.get<{[id: string]: boolean}>(`${environment.baseUrl}/seen`),
+      this.http.get<{[id: string]: Flat}>(`${environment.baseUrl}/flats`),
     ]).pipe(
       switchMap(([storedFlats]) => {
       return this.listAgar().pipe(
@@ -52,7 +53,7 @@ export class AppService {
           
           let seen$: any[] = [];
           flats.forEach((flat: Flat) => {
-            seen$.push(this.http.post(`http://localhost:3000/flats`, flat));
+            seen$.push(this.http.post(`${environment.baseUrl}/flats`, flat));
           });
           concat(...seen$).subscribe();
         })
@@ -184,7 +185,7 @@ export class AppService {
   }
 
   updateFlat(flat: Flat) {
-    return this.http.post(`http://localhost:3000/flats`, flat);
+    return this.http.post(`${environment.baseUrl}/flats`, flat);
   }
 }
 
