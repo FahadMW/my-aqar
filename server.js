@@ -116,6 +116,12 @@ app.delete("/seen/:id", (req, res) => {
   }, true);
 });
 
+app.use(express.static(process.cwd()+"/dist/aqar/"))
+
+app.get('/', (req,res) => {
+  res.sendFile(process.cwd()+"/dist/aqar/index.html")
+});
+
 const server = app.listen(3000, () => {
   console.log("listening on port %s...", server.address().port);
 });
