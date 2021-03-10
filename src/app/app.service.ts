@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AppService {
 
+  public search = {districts: [600,632,536,570,504,664,598,522,404,514,610,404,706,482,704,416,620,532,396,614,454,438,582,464,526,450,494,574,596,538], rentPeriod: 3, beds: 3, age: 3, priceGte: 30000, priceLte: 40000};
+
   constructor(private http: HttpClient, private apollo: Apollo) {}
 
   list() {
@@ -61,7 +63,7 @@ export class AppService {
     }));
   }
 
-  listAgar(page = 0, size = 70, districts = '[600,632,522,706,532,454,438,582,464]', rentPeriod = 3, beds = 3, age = 3, priceGte = 30000, priceLte = 40000) {
+  listAgar(page = 0, size = 70) {
     // return this.http.get<Flat[]>(`assets/mock.json`);
     return this.apollo.query({
       query: gql`
@@ -70,12 +72,12 @@ export class AppService {
             find(
               where: {
                 category: { eq: 1 }
-                district_id: { inar: ${districts} }
-                rent_period: { eq: ${rentPeriod} }
-                beds: { eq: ${beds} }
+                district_id: { inar: ${JSON.stringify(this.search.districts)} }
+                rent_period: { eq: ${this.search.rentPeriod} }
+                beds: { eq: ${this.search.beds} }
                 family: { eq: 1 }
-                age: { lte: ${age} }
-                price: { gte: ${priceGte} }
+                age: { lte: ${this.search.age} }
+                price: { gte: ${this.search.priceGte}, lte: ${this.search.priceLte} }
               }
               sort: { create_time: desc, has_img: desc }
               size: ${size}
@@ -172,7 +174,7 @@ export class AppService {
         let listings: any[] = [];
         let total: number = 0;
         if (res && res.data && res.data.Web && res.data.Web.find && res.data.Web.find.listings && res.data.Web.find.listings.length > 0) {
-          listings = (res.data.Web.find.listings as Flat[]).filter(x => x.price <= priceLte);
+          listings = res.data.Web.find.listings as Flat[];
         }
 
         if (res && res.data && res.data.Web && res.data.Web.find && res.data.Web.find.total) {
@@ -186,6 +188,10 @@ export class AppService {
 
   updateFlat(flat: Flat) {
     return this.http.post(`${environment.baseUrl}/flats`, flat);
+  }
+
+  listDistricts() {
+    return this.http.get<any[]>(`assets/districts.json`);
   }
 }
 

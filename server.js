@@ -66,50 +66,25 @@ app.delete("/flats/:id", (req, res) => {
   }, true);
 });
 
-app.get("/rating", (req, res) => {
+app.get("/saved-search", (req, res) => {
   readFile((data) => {
-    res.send(data.rating);
+    res.send(data.savedSearch);
   }, true);
 });
 
-app.post("/rating", (req, res) => {
+app.post("/saved-search", (req, res) => {
   readFile((data) => {
-    data.rating[req.body.id] = req.body;
+    data.savedSearch[req.body.id] = req.body;
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });
   }, true);
 });
 
-app.delete("/rating/:id", (req, res) => {
+app.delete("/saved-search/:id", (req, res) => {
   readFile((data) => {
     const id = req.params["id"];
-    delete data.rating[id];
-    writeFile(JSON.stringify(data, null, 2), () => {
-      res.status(200).send();
-    });
-  }, true);
-});
-
-app.get("/seen", (req, res) => {
-  readFile((data) => {
-    res.send(data.seen);
-  }, true);
-});
-
-app.post("/seen", (req, res) => {
-  readFile((data) => {
-    data.seen[req.body.id] = true;
-    writeFile(JSON.stringify(data, null, 2), () => {
-      res.status(200).send();
-    });
-  }, true);
-});
-
-app.delete("/seen/:id", (req, res) => {
-  readFile((data) => {
-    const id = req.params["id"];
-    delete data.seen[id];
+    delete data.savedSearch[id];
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });
@@ -122,6 +97,6 @@ app.get('/', (req,res) => {
   res.sendFile(process.cwd()+"/dist/aqar/index.html")
 });
 
-const server = app.listen(process.env.PORT || 4000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   console.log("listening on port %s...", server.address().port);
 });

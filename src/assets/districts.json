@@ -447,5 +447,129 @@
     "category": {
       "id": 1
     }
+  },
+  {
+    "name": "النخيل",
+    "district_id": 596,
+    "values": [
+      {
+        "order": 1,
+        "year": 2015,
+        "count": 10,
+        "price": 39050,
+        "time_range": "2-2015"
+      },
+      {
+        "order": 2,
+        "year": 2016,
+        "count": 10,
+        "price": 36820,
+        "time_range": "1-2016"
+      },
+      {
+        "order": 3,
+        "year": 2016,
+        "count": 22,
+        "price": 38022,
+        "time_range": "2-2016"
+      },
+      {
+        "order": 4,
+        "year": 2017,
+        "count": 21,
+        "price": 35190,
+        "time_range": "1-2017"
+      },
+      {
+        "order": 5,
+        "year": 2017,
+        "count": 30,
+        "price": 37400,
+        "time_range": "2-2017"
+      },
+      {
+        "order": 6,
+        "year": 2018,
+        "count": 55,
+        "price": 32263,
+        "time_range": "1-2018"
+      },
+      {
+        "order": 7,
+        "year": 2018,
+        "count": 31,
+        "price": 27983,
+        "time_range": "2-2018"
+      },
+      {
+        "order": 8,
+        "year": 2019,
+        "count": 78,
+        "price": 32250,
+        "time_range": "1-2019"
+      },
+      {
+        "order": 9,
+        "year": 2019,
+        "count": 62,
+        "price": 30895,
+        "time_range": "2-2019"
+      },
+      {
+        "order": 10,
+        "year": 2020,
+        "count": 35,
+        "price": 33642,
+        "time_range": "1-2020"
+      }
+    ]
+  },
+  {
+    "name": "المحمدية",
+    "district_id": 538,
+    "values": [
+      {
+        "order": 3,
+        "year": 2016,
+        "count": 6,
+        "price": 35666,
+        "time_range": "2-2016"
+      },
+      {
+        "order": 4,
+        "year": 2017,
+        "count": 6,
+        "price": 36166,
+        "time_range": "1-2017"
+      },
+      {
+        "order": 5,
+        "year": 2017,
+        "count": 12,
+        "price": 32333,
+        "time_range": "2-2017"
+      },
+      {
+        "order": 6,
+        "year": 2018,
+        "count": 5,
+        "price": 34000,
+        "time_range": "1-2018"
+      },
+      {
+        "order": 9,
+        "year": 2019,
+        "count": 10,
+        "price": 33000,
+        "time_range": "2-2019"
+      },
+      {
+        "order": 10,
+        "year": 2020,
+        "count": 7,
+        "price": 28428,
+        "time_range": "1-2020"
+      }
+    ]
   }
 ]

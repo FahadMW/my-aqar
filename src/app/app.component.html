@@ -1,27 +1,78 @@
 <div class="container">
   <h4>عدد شقق عقار: {{ aqarCount }}</h4>
-<div class="row">
-  <div *ngFor="let flat of flats" class="col-lg-4 col-md-6 col-12">
-    <div class="card"  [class.border-primary]="!flat.seen" [class.half-opacity]="flat.canceled">
-      <div class="card-img-top" style="overflow: scroll;height: 250px;display: flex;">
-        <img *ngFor="let image of flat.imgs" [src]="'https://images.aqar.fm/'+image" class="card-img-top" style="object-fit: contain;">
+  <form [formGroup]="form" (ngSubmit)="search()">
+    <div class="row">
+      <div class="col-lg-2">
+        <label for="districts" class="form-label">الأحياء</label>
+        <select class="form-select" id="districts" multiple formControlName="districts">
+          <option *ngFor="let district of districts" [value]="district.district_id">{{ district.name }}</option>
+        </select>
       </div>
-      <div class="card-body">
-        <div class="d-flex justify-content-between">
-          <h5 class="card-title">{{ flat.district }}</h5>
-          <div>
-            <button type="button" class="btn p-0" [class]="flat.rating >= 1 ? 'text-warning' : 'text-black-50'" (click)="rate(1, flat)">★</button>
-            <button type="button" class="btn p-0" [class]="flat.rating >= 2 ? 'text-warning' : 'text-black-50'" (click)="rate(2, flat)">★</button>
-            <button type="button" class="btn p-0" [class]="flat.rating >= 3 ? 'text-warning' : 'text-black-50'" (click)="rate(3, flat)">★</button>
-            <button type="button" class="btn p-0" [class]="flat.rating >= 4 ? 'text-warning' : 'text-black-50'" (click)="rate(4, flat)">★</button>
-            <button type="button" class="btn p-0" [class]="flat.rating >= 5 ? 'text-warning' : 'text-black-50'" (click)="rate(5, flat)">★</button>
-          </div>
-        </div>
-        <h6>{{ flat.price }} ريال</h6>
-        <p class="card-text" style="height: 150px;overflow: auto;">{{ flat.content }}</p>
-        <a [href]="'https://sa.aqar.fm'+flat.path" target="_blank" class="btn btn-link">رابط عقار</a>
+      <div class="col-lg-2">
+        <label for="rentPeriod" class="form-label">مدة التأجير</label>
+        <select class="form-select" id="rentPeriod" formControlName="rentPeriod">
+          <option value="1">يومي</option>
+          <option value="2">شهري</option>
+          <option value="3">سنوي</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <label for="beds" class="form-label">الغرف</label>
+        <input type="number" class="form-control" id="beds" formControlName="beds">
+      </div>
+      <div class="col-lg-2">
+        <label for="age" class="form-label">العمر</label>
+        <input type="number" class="form-control" id="age" formControlName="age">
+      </div>
+      <div class="col-lg-2">
+        <label for="priceGte" class="form-label">أقل سعر</label>
+        <input type="number" class="form-control" id="priceGte" formControlName="priceGte">
+      </div>
+      <div class="col-lg-2">
+        <label for="priceLte" class="form-label">أعلى سعر</label>
+        <input type="number" class="form-control" id="priceLte" formControlName="priceLte">
+      </div>
+      <div class="col-lg-2">
+        <label for="rating" class="form-label">التقييم</label>
+        <select class="form-select" id="rating" multiple formControlName="rating">
+          <option value="5">5</option>
+          <option value="4">4</option>
+          <option value="3">3</option>
+          <option value="2">2</option>
+          <option value="1">1</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+      <div class="col-lg-12 text-end">
+        <button type="submit" class="btn btn-primary">بحث</button>
       </div>
     </div>
+  </form>
+  <pre>{{form.get('rating')?.value}}</pre>
+  <div class="row">
+    <ng-container *ngFor="let flat of flats">
+      <div [class.d-none]="form.get('rating')?.value && form.get('rating')?.value.indexOf(flat.rating + '') == -1" class="col-lg-4 col-md-6 col-12">
+        <div class="card"  [class.border-primary]="!flat.seen" [class.half-opacity]="flat.canceled">
+          <div class="card-img-top" style="overflow: scroll;height: 250px;display: flex;">
+            <img *ngFor="let image of flat.imgs" [src]="'https://images.aqar.fm/'+image" class="card-img-top" style="object-fit: contain;">
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title">{{ flat.district }}</h5>
+              <div>
+                <button type="button" class="btn p-0" [class]="flat.rating >= 1 ? 'text-warning' : 'text-black-50'" (click)="rate(1, flat)">★</button>
+                <button type="button" class="btn p-0" [class]="flat.rating >= 2 ? 'text-warning' : 'text-black-50'" (click)="rate(2, flat)">★</button>
+                <button type="button" class="btn p-0" [class]="flat.rating >= 3 ? 'text-warning' : 'text-black-50'" (click)="rate(3, flat)">★</button>
+                <button type="button" class="btn p-0" [class]="flat.rating >= 4 ? 'text-warning' : 'text-black-50'" (click)="rate(4, flat)">★</button>
+                <button type="button" class="btn p-0" [class]="flat.rating >= 5 ? 'text-warning' : 'text-black-50'" (click)="rate(5, flat)">★</button>
+              </div>
+            </div>
+            <h6>{{ flat.price }} ريال</h6>
+            <p class="card-text" style="height: 150px;overflow: auto;">{{ flat.content }}</p>
+            <a [href]="'https://sa.aqar.fm'+flat.path" target="_blank" class="btn btn-link">رابط عقار</a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-</div>
 </div>
