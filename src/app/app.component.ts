@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { map } from 'rxjs/operators';
+import { GetDistrictRatingGQL, ListCategoriesGQL, ListCitiesGQL, ListDirectionGQL, ListDistrictsGQL } from 'src/generated/graphql';
 import { AppService, Flat } from './app.service';
 
 @Component({
@@ -16,6 +18,11 @@ export class AppComponent {
 
   constructor(
     private appService: AppService,
+    private listCategoriesGQL: ListCategoriesGQL,
+    private listCitiesGQL: ListCitiesGQL,
+    private listDirectionGQL: ListDirectionGQL,
+    private listDistrictsGQL: ListDistrictsGQL,
+    private getDistrictRatingGQL: GetDistrictRatingGQL,
   ) {
     this.form = new FormGroup({
       districts: new FormControl(),
@@ -31,7 +38,18 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    
+    // this.listCategoriesGQL.watch().valueChanges.pipe(map(result => result.data.Web?.categories)).subscribe(res => {
+    //   console.log(res);
+    // })
+    // this.listDirectionGQL.watch({category: 0, city_id: 0}).valueChanges.pipe(map(result => result.data.Web?.directions)).subscribe(res => {
+    //   console.log(res);
+    // })
+    // this.listDistrictsGQL.watch({category: 0, city_id: 21}).valueChanges.pipe(map(result => result.data.Web?.districts)).subscribe(res => {
+    //   console.log(res);
+    // });
+    this.getDistrictRatingGQL.watch({district_id: 570}).valueChanges.pipe(map(result => result.data.Rating)).subscribe(res => {
+      console.log(res);
+    });
   }
 
   search() {

@@ -1,0 +1,430 @@
+query listCategories {
+  Web {
+    categories(lang: ar) {
+      id
+      keywords
+      name
+      path
+      plural
+      uri
+    }
+  }
+}
+
+query listCities($category: Int = 0) {
+  Web {
+    cities(category: $category) {
+      uri
+      title
+      path
+      name
+      directions
+      count
+      city_id
+      category {
+        path
+        id
+        keywords
+        name
+        plural
+        uri
+      }
+    }
+  }
+}
+
+query listDirection($category: Int = 0, $city_id: Int = 21) {
+  Web {
+    directions(category: $category, city_id: $city_id) {
+      category {
+        id
+        keywords
+        name
+        path
+        plural
+        uri
+      }
+      city {
+        category {
+          id
+          keywords
+          name
+          path
+          plural
+          uri
+        }
+        city_id
+        count
+        directions
+        name
+        path
+        title
+        uri
+      }
+      count
+      direction_id
+      name
+      path
+      title
+      uri
+    }
+  }
+}
+
+query listDistricts($category: Int = 0, $city_id: Int = 21, $direction_id: Int = 0) {
+  Web {
+    districts(direction_id: $direction_id, city_id: $city_id, category: $category) {
+      category {
+        id
+        keywords
+        name
+        path
+        plural
+        uri
+      }
+      city {
+        city_id
+        count
+        directions
+        name
+        path
+        title
+        uri
+        category {
+          id
+          keywords
+          name
+          path
+          plural
+          uri
+        }
+      }
+      count
+      direction {
+        category {
+          id
+          keywords
+          name
+          plural
+          path
+          uri
+        }
+        city {
+          category {
+            id
+            keywords
+            name
+            path
+            plural
+            uri
+          }
+          city_id
+          count
+          directions
+          name
+          path
+          title
+          uri
+        }
+        count
+        direction_id
+        name
+        path
+        title
+        uri
+      }
+      district_id
+      name
+      path
+      title
+      uri
+    }
+  }
+}
+
+query listFeatured {
+  Web {
+    featured {
+      listings {
+        ac
+        address
+        advertiser_type
+        age
+        appraisal
+        appraisal_id
+        apts
+        area
+        backyard
+        basement
+        beds
+        boosted
+        car_entrance
+        category
+        city
+        city_id
+        content
+        create_time
+        direction
+        direction_id
+        district
+        district_id
+        driver
+        duplex
+        employee {
+          img
+          name
+          phone
+        }
+        employee_user_id
+        extra_unit
+        family
+        family_section
+        fb
+        fl
+        furnished
+        has_img
+        has_video
+        id
+        imgs
+        imgs_desc
+        ketchen
+        last_update
+        lift
+        livings
+        location {
+          lat
+          lng
+        }
+        maid
+        men_place
+        meter_price
+        mgr_user_id
+        native {
+          description
+          external_url
+          image
+          logo
+          title
+        }
+        path
+        playground
+        pool
+        premium
+        price
+        province_id
+        refresh
+        rent_period
+        rooms
+        special
+        stairs
+        status
+        stc_coverage {
+          fiber
+          fifth_generation
+          fourth_generation
+        }
+        stores
+        street_direction
+        street_width
+        subscription {
+          about
+          img
+          name
+          phones
+        }
+        tent
+        title
+        trees
+        type
+        unique_listing
+        uri
+        user {
+          fee
+          iam_verified
+          img
+          name
+          paid
+          phone
+          review
+          type
+        }
+        user_id
+        user_type
+        vb
+        verified
+        videos {
+          orientation
+          thumbnail
+          video
+        }
+        virtual_tour_link
+        wc
+        wells
+        women_place
+      }
+      total
+    }
+  }
+}
+
+query list($from: Int = 0, $polygon: [LocationInput!] = {lat: 1.5, lng: 1.5}, $size: Int = 0, $sort: SortInput = {}, $structure: Boolean = false, $where: WhereInput = {}) {
+  Web {
+    find(from: $from, polygon: $polygon, size: $size, sort: $sort, structure: $structure, where: $where) {
+      listings {
+        ac
+        address
+        advertiser_type
+        age
+        appraisal
+        appraisal_id
+        apts
+        area
+        backyard
+        basement
+        beds
+        boosted
+        car_entrance
+        category
+        city
+        city_id
+        content
+        create_time
+        direction
+        direction_id
+        district
+        district_id
+        driver
+        duplex
+        employee {
+          img
+          name
+          phone
+        }
+        employee_user_id
+        extra_unit
+        family
+        family_section
+        fb
+        fl
+        furnished
+        has_img
+        has_video
+        id
+        imgs
+        imgs_desc
+        ketchen
+        last_update
+        lift
+        livings
+        location {
+          lat
+          lng
+        }
+        maid
+        men_place
+        meter_price
+        mgr_user_id
+        native {
+          description
+          external_url
+          image
+          logo
+          title
+        }
+        path
+        playground
+        pool
+        premium
+        price
+        province_id
+        refresh
+        rent_period
+        rooms
+        special
+        stairs
+        status
+        stc_coverage {
+          fiber
+          fifth_generation
+          fourth_generation
+        }
+        stores
+        street_direction
+        street_width
+        subscription {
+          about
+          img
+          name
+          phones
+        }
+        tent
+        title
+        trees
+        type
+        unique_listing
+        uri
+        user {
+          fee
+          iam_verified
+          img
+          name
+          paid
+          phone
+          review
+          type
+        }
+        user_id
+        user_type
+        vb
+        verified
+        videos {
+          orientation
+          thumbnail
+          video
+        }
+        virtual_tour_link
+        wc
+        wells
+        women_place
+      }
+      total
+    }
+  }
+}
+
+query getDistrictRating($district_id: Int = 0, $offset: Int = 0) {
+  Rating {
+    getDistrictRate(district_id: $district_id, offset: $offset) {
+      educational_services_rate
+      electricity_water_rate
+      internet_rate
+      list {
+        car_parking_issues
+        clean
+        comment
+        created_time
+        electricity
+        elementary_school
+        fiber
+        general_issues
+        high_school
+        id
+        internet
+        kindergarten
+        medical_center
+        medical_center_review
+        middle_school
+        park
+        pharmacies
+        rate
+        universities
+        water
+      }
+      medical_services_rate
+      offset
+      rate
+      rate_count
+      streets_rate
+    }
+  }
+}
