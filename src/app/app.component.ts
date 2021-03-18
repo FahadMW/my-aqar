@@ -6,6 +6,8 @@ import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Category, City, Direction, District, ElasticWebListing, ListCategoriesGQL, ListCitiesGQL, ListDirectionGQL, ListDistrictsGQL, ListGQL, SortInput, WhereInput } from 'src/generated/graphql';
+import { AppService } from './app.service';
+import { Flat } from './flat.model';
 
 @Component({
   selector: 'app-root',
@@ -27,12 +29,12 @@ export class AppComponent {
   public username: string | null;
 
   constructor(
+    private appService: AppService,
     private listCategoriesGQL: ListCategoriesGQL,
     private listCitiesGQL: ListCitiesGQL,
     private listDirectionGQL: ListDirectionGQL,
     private listDistrictsGQL: ListDistrictsGQL,
     private listGQL: ListGQL,
-    private http: HttpClient,
     private dialog: MatDialog,
   ) {
     this.username = localStorage.getItem('username');
@@ -136,7 +138,7 @@ export class AppComponent {
     let maxSize = 500;
     this.flats = [];
 
-    of(this.username).pipe(switchMap(username => username ? this.http.get<{[id: string]: Flat}>(`${environment.baseUrl}/${this.username}/flats`) : of({}))).pipe(
+    of(this.username).pipe(switchMap(username => username ? this.appService.list(username) : of({}))).pipe(
       map(res => {
         const filtered = Object.entries(res).filter(([id, flat]) => {
           return  (
@@ -209,28 +211,32 @@ export class AppComponent {
   }
 
   rate(rating: number, flat: Flat) {
+    if (!this.username) return;
     if (rating == flat.rating) rating = 0;
-    return this.http.post(`${environment.baseUrl}/${this.username}/flats`, {...flat, rating}).subscribe(res => {
+    return this.appService.update(this.username, {...flat, rating}).subscribe(res => {
       flat.rating = rating;
     });
   }
 
   hide(hide: boolean, flat: Flat) {
-    return this.http.post(`${environment.baseUrl}/${this.username}/flats`, {...flat, hide}).subscribe(res => {
+    if (!this.username) return;
+    return this.appService.update(this.username, {...flat, hide}).subscribe(res => {
       flat.hide = hide;
       this.flats = this.flats?.filter(flat => this.isEmpty(this.form.get('showHide')?.value) && !flat.hide)
     });
   }
 
   contact(contact: number, flat: Flat) {
-    return this.http.post(`${environment.baseUrl}/${this.username}/flats`, {...flat, contact}).subscribe(res => {
+    if (!this.username) return;
+    return this.appService.update(this.username, {...flat, contact}).subscribe(res => {
       flat.contact = contact;
       this.flats = this.flats?.filter(flat => this.isEmpty(this.form.get('contact')?.value) || this.form.get('contact')?.value == flat.contact)
     });
   }
 
   favorite(favorite: number, flat: Flat) {
-    return this.http.post(`${environment.baseUrl}/${this.username}/flats`, {...flat, favorite}).subscribe(res => {
+    if (!this.username) return;
+    return this.appService.update(this.username, {...flat, favorite}).subscribe(res => {
       flat.favorite = favorite;
       this.flats = this.flats?.filter(flat => this.isEmpty(this.form.get('favorite')?.value) || this.form.get('favorite')?.value == flat.favorite)
     });
@@ -257,13 +263,4 @@ export class AppComponent {
   isEmpty(value: string) {
     return value === null || value === undefined || value === '';
   }
-}
-
-export interface Flat extends ElasticWebListing {
-  rating: number;
-  seen: boolean;
-  canceled: boolean;
-  hide: boolean;
-  contact: number;
-  favorite: number;
 }

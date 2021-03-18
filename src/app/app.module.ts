@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,18 @@ import { MatDialogModule } from '@angular/material/dialog';
     GraphQLModule,
     BrowserAnimationsModule,
     MatButtonModule, MatSelectModule, MatInputModule, MatProgressSpinnerModule, MatDialogModule,
+    NgxIndexedDBModule.forRoot({
+      name: 'aqarDB',
+      version: 1,
+      objectStoresMeta: [{
+        store: 'flats',
+        storeConfig: { keyPath: ['username', 'id'], autoIncrement: false },
+        storeSchema: [
+          // { name: 'name', keypath: 'name', options: { unique: false } },
+          // { name: 'email', keypath: 'email', options: { unique: false } }    
+        ]
+      }]
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
