@@ -1,73 +1,212 @@
 <div class="container">
-  <h4>عدد شقق عقار: {{ aqarCount }}</h4>
+  <div class="my-2 d-flex align-items-center">
+    <button *ngIf="!username" type="button" mat-stroked-button color="primary" class="ms-auto" (click)="openLoginDialog(loginRef)">
+      تسجيل الدخول
+    </button>
+    <div *ngIf="username">
+      تم تسجيل الدخول كـ {{ username }}
+    </div>
+    <button *ngIf="username" type="button" mat-stroked-button color="primary" class="ms-auto" (click)="logout()">
+      تسجيل الخروج
+    </button>
+  </div>
   <form [formGroup]="form" (ngSubmit)="search()">
     <div class="row">
-      <div class="col-lg-2">
-        <label for="districts" class="form-label">الأحياء</label>
-        <select class="form-select" id="districts" multiple formControlName="districts">
-          <option *ngFor="let district of districts" [value]="district.district_id">{{ district.name }}</option>
-        </select>
+      <!-- <input type="text" formControlName="category">
+      <input type="text" formControlName="city_id">
+      <input type="text" formControlName="direction_id"> -->
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>التصنيف</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="null"></mat-option>
+            <mat-option *ngFor="let category of (categories$ | async)" [value]="category.id">{{ category.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="rentPeriod" class="form-label">مدة التأجير</label>
-        <select class="form-select" id="rentPeriod" formControlName="rentPeriod">
-          <option value="1">يومي</option>
-          <option value="2">شهري</option>
-          <option value="3">سنوي</option>
-        </select>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>المدينة</mat-label>
+          <mat-select formControlName="city_id">
+            <mat-option [value]="null"></mat-option>
+            <mat-option *ngFor="let city of (cities$ | async)" [value]="city.city_id">{{ city.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="beds" class="form-label">الغرف</label>
-        <input type="number" class="form-control" id="beds" formControlName="beds">
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>الإتجاه</mat-label>
+          <mat-select formControlName="direction_id">
+            <mat-option [value]="null"></mat-option>
+            <mat-option *ngFor="let direction of (directions$ | async)" [value]="direction.direction_id">{{ direction.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="age" class="form-label">العمر</label>
-        <input type="number" class="form-control" id="age" formControlName="age">
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>الأحياء</mat-label>
+          <mat-select formControlName="district_id" multiple>
+            <mat-option *ngFor="let district of (districts$ | async)" [value]="district.district_id">{{ district.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="priceGte" class="form-label">أقل سعر</label>
-        <input type="number" class="form-control" id="priceGte" formControlName="priceGte">
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>مدة التأجير</mat-label>
+          <mat-select formControlName="rent_period">
+            <mat-option [value]="null"></mat-option>
+            <mat-option value="1">يومي</mat-option>
+            <mat-option value="2">شهري</mat-option>
+            <mat-option value="3">سنوي</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="priceLte" class="form-label">أعلى سعر</label>
-        <input type="number" class="form-control" id="priceLte" formControlName="priceLte">
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>نوع السكن</mat-label>
+          <mat-select formControlName="family" multiple>
+            <mat-option value="1">عوائل</mat-option>
+            <mat-option value="0">عزاب</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-2">
-        <label for="rating" class="form-label">التقييم</label>
-        <select class="form-select" id="rating" multiple formControlName="rating">
-          <option value="5">5</option>
-          <option value="4">4</option>
-          <option value="3">3</option>
-          <option value="2">2</option>
-          <option value="1">1</option>
-          <option value="0">0</option>
-        </select>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>الغرف</mat-label>
+          <mat-select formControlName="beds" multiple>
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="6">6</mat-option>
+            <mat-option value="7">7</mat-option>
+            <mat-option value="8">8</mat-option>
+            <mat-option value="9">9</mat-option>
+            <mat-option value="10">10</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-lg-12 text-end">
-        <button type="submit" class="btn btn-primary">بحث</button>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>العمر</mat-label>
+          <input type="number" matInput formControlName="age">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>أقل سعر</mat-label>
+          <input type="number" matInput formControlName="priceLte">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>أعلى سعر</mat-label>
+          <input type="number" matInput formControlName="priceGte">
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>ترتيب حسب</mat-label>
+          <mat-select formControlName="sortBy">
+            <mat-option [value]="null"></mat-option>
+            <mat-option *ngFor="let field of sortFields" [value]="field">{{ field }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>نوع الترتيب</mat-label>
+          <mat-select formControlName="sortType">
+            <mat-option [value]="null"></mat-option>
+            <mat-option value="asc">تصاعدي</mat-option>
+            <mat-option value="desc">تنازلي</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>التقييم</mat-label>
+          <mat-select formControlName="rating" multiple>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="1">1</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>المشاهدة</mat-label>
+          <mat-select formControlName="viewed">
+            <mat-option [value]="null"></mat-option>
+            <mat-option value="1">تمت مشاهدته</mat-option>
+            <mat-option value="0">لم تشاهد</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>المفضلة</mat-label>
+          <mat-select formControlName="favorite">
+            <mat-option [value]="null"></mat-option>
+            <mat-option value="1">مفضلة</mat-option>
+            <mat-option value="0">غير مفضلة</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>التواصل</mat-label>
+          <mat-select formControlName="contact">
+            <mat-option [value]="null"></mat-option>
+            <mat-option value="1">تم التواصل</mat-option>
+            <mat-option value="0">لم يتم التواصل</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-3 text-end d-flex align-items-center ms-auto justify-content-end">
+        <button type="submit" mat-raised-button color="primary" class="w-50" [disabled]="loading" style="font-size: 1.2rem;font-weight: bold;">
+          <div [class.invisible]="loading">بحث</div>
+          <div *ngIf="loading" class="position-absolute d-flex align-items-center justify-content-center" style="top:0;left:0;right:0;bottom:0;">
+            <mat-spinner diameter="25" strokeWidth="3"></mat-spinner>
+          </div>
+        </button>
       </div>
     </div>
   </form>
-  <pre>{{form.get('rating')?.value}}</pre>
+  <div *ngIf="flats">عدد النتائج : {{ flats?.length }}</div>
   <div class="row">
     <ng-container *ngFor="let flat of flats">
       <div [class.d-none]="form.get('rating')?.value && form.get('rating')?.value.indexOf(flat.rating + '') == -1" class="col-lg-4 col-md-6 col-12">
         <div class="card"  [class.border-primary]="!flat.seen" [class.half-opacity]="flat.canceled">
-          <div class="card-img-top" style="overflow: scroll;height: 250px;display: flex;">
-            <img *ngFor="let image of flat.imgs" [src]="'https://images.aqar.fm/'+image" class="card-img-top" style="object-fit: contain;">
+          <div class="card-img-top" style="overflow: scroll;height: 250px;display: flex; direction: rtl;">
+            <img *ngFor="let image of flat.imgs" [src]="'https://images.aqar.fm/'+image" class="card-img-top" style="object-fit: contain;" loading=lazy>
           </div>
           <div class="card-body">
             <div class="d-flex justify-content-between">
               <h5 class="card-title">{{ flat.district }}</h5>
-              <div>
-                <button type="button" class="btn p-0" [class]="flat.rating >= 1 ? 'text-warning' : 'text-black-50'" (click)="rate(1, flat)">★</button>
-                <button type="button" class="btn p-0" [class]="flat.rating >= 2 ? 'text-warning' : 'text-black-50'" (click)="rate(2, flat)">★</button>
-                <button type="button" class="btn p-0" [class]="flat.rating >= 3 ? 'text-warning' : 'text-black-50'" (click)="rate(3, flat)">★</button>
-                <button type="button" class="btn p-0" [class]="flat.rating >= 4 ? 'text-warning' : 'text-black-50'" (click)="rate(4, flat)">★</button>
-                <button type="button" class="btn p-0" [class]="flat.rating >= 5 ? 'text-warning' : 'text-black-50'" (click)="rate(5, flat)">★</button>
+              <div [style.opacity]="username ? 1 : 0"> 
+                <button type="button" class="btn p-0" [disabled]="!username" [class]="flat.rating >= 1 ? 'text-warning' : 'text-black-50'" (click)="rate(1, flat)">★</button>
+                <button type="button" class="btn p-0" [disabled]="!username" [class]="flat.rating >= 2 ? 'text-warning' : 'text-black-50'" (click)="rate(2, flat)">★</button>
+                <button type="button" class="btn p-0" [disabled]="!username" [class]="flat.rating >= 3 ? 'text-warning' : 'text-black-50'" (click)="rate(3, flat)">★</button>
+                <button type="button" class="btn p-0" [disabled]="!username" [class]="flat.rating >= 4 ? 'text-warning' : 'text-black-50'" (click)="rate(4, flat)">★</button>
+                <button type="button" class="btn p-0" [disabled]="!username" [class]="flat.rating >= 5 ? 'text-warning' : 'text-black-50'" (click)="rate(5, flat)">★</button>
               </div>
             </div>
-            <h6>{{ flat.price }} ريال</h6>
+            <div class="d-flex justify-content-between">
+              <h6>{{ flat.price }} ريال</h6>
+              <div [style.opacity]="username ? 1 : 0">
+                <button type="button" class="btn p-0 me-2" [disabled]="!username" (click)="contact(flat.contact == 1 ? 0 : 1, flat)">
+                  <i class="fas fa-phone small" [class.text-black-50]="!flat.contact || flat.contact == 0" [class.text-primary]="flat.contact == 1"></i>
+                </button>
+                <button type="button" class="btn p-0" [disabled]="!username" (click)="favorite(flat.favorite == 1 ? 0 : 1, flat)">
+                  <i class="fas fa-heart small text-danger" [class.d-none]="!flat.favorite || flat.favorite == 0"></i>
+                  <i class="fas fa-heart small text-black-50" [class.d-none]="flat.favorite == 1"></i>
+                </button>
+              </div>
+            </div>
             <p class="card-text" style="height: 150px;overflow: auto;">{{ flat.content }}</p>
             <a [href]="'https://sa.aqar.fm'+flat.path" target="_blank" class="btn btn-link">رابط عقار</a>
           </div>
@@ -76,3 +215,19 @@
     </ng-container>
   </div>
 </div>
+
+<ng-template #loginRef>
+  <form (ngSubmit)="login(usernameInput)">
+    <h2 mat-dialog-title>تسجيل الدخول</h2>
+    <mat-dialog-content>
+      <mat-form-field appearance="outline">
+        <mat-label>اسم المستخدم</mat-label>
+        <input matInput #usernameInput>
+      </mat-form-field>  
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-button>إلغاء</button>
+      <button type="submit" mat-raised-button color="primary">دخول</button>
+    </mat-dialog-actions>
+  </form>
+</ng-template>

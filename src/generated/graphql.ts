@@ -6,17 +6,17 @@ export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K]
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
-export interface Scalars {
+export type Scalars = {
   ID: string;
   String: string;
   Boolean: boolean;
   Int: number;
   Float: number;
-}
+};
 
 
 
-export interface Query {
+export type Query = {
   __typename?: 'Query';
   Info?: Maybe<InfoQryOps>;
   User?: Maybe<UserQryOps>;
@@ -31,9 +31,9 @@ export interface Query {
   HomePlans?: Maybe<HomePlansOpenQryOps>;
   HomeFinancing?: Maybe<HomeFinancingQryOps>;
   ThreeDimensionalDesigns?: Maybe<ThreeDimensionalOpenQryOps>;
-}
+};
 
-export interface InfoQryOps {
+export type InfoQryOps = {
   __typename?: 'InfoQryOps';
   appVersion?: Maybe<AppVersion>;
   getUpdates?: Maybe<Updates>;
@@ -45,32 +45,38 @@ export interface InfoQryOps {
   professionalPhotographyCities?: Maybe<Array<Maybe<Scalars['Int']>>>;
   configuration?: Maybe<Scalars['String']>;
   configurations?: Maybe<AppConfigurations>;
-}
+  stc_configurations?: Maybe<StcConfigurations>;
+};
 
 
-export interface InfoQryOpsAppVersionArgs {
+export type InfoQryOpsAppVersionArgs = {
   type: AppType;
-}
+};
+
+
+export type InfoQryOpsStc_ConfigurationsArgs = {
+  lang?: Maybe<Langs>;
+};
 
 export enum AppType {
   Iphone = 'iphone',
   Android = 'android'
 }
 
-export interface AppVersion {
+export type AppVersion = {
   __typename?: 'AppVersion';
   version?: Maybe<Scalars['String']>;
   required?: Maybe<Scalars['Boolean']>;
   last_update_time?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface Updates {
+export type Updates = {
   __typename?: 'Updates';
   list?: Maybe<Array<Maybe<Update>>>;
   last_update_time?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface Update {
+export type Update = {
   __typename?: 'Update';
   update_id?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
@@ -78,21 +84,46 @@ export interface Update {
   img?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   create_time?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface Agreement {
+export type Agreement = {
   __typename?: 'Agreement';
   title?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
-}
+};
 
-export interface AppConfigurations {
+export type AppConfigurations = {
   __typename?: 'AppConfigurations';
   show_bab_filters?: Maybe<Scalars['Boolean']>;
   promote_engineering_requests?: Maybe<Scalars['Boolean']>;
+};
+
+export enum Langs {
+  Ar = 'ar',
+  En = 'en'
 }
 
-export interface UserQryOps {
+export type StcConfigurations = {
+  __typename?: 'StcConfigurations';
+  header_text?: Maybe<Scalars['String']>;
+  services?: Maybe<Array<Maybe<StcService>>>;
+  banners?: Maybe<Array<Maybe<StcBanner>>>;
+};
+
+export type StcService = {
+  __typename?: 'StcService';
+  icon?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+};
+
+export type StcBanner = {
+  __typename?: 'StcBanner';
+  img?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+};
+
+export type UserQryOps = {
   __typename?: 'UserQryOps';
   get?: Maybe<User>;
   relative?: Maybe<RelativeUser>;
@@ -100,46 +131,46 @@ export interface UserQryOps {
   reviews?: Maybe<UserReviews>;
   isRegisteredToken?: Maybe<Scalars['Boolean']>;
   getPhones?: Maybe<Array<Maybe<Scalars['String']>>>;
-}
+};
 
 
-export interface UserQryOpsGetArgs {
+export type UserQryOpsGetArgs = {
   user_id?: Maybe<Scalars['Int']>;
   phone?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserQryOpsRelativeArgs {
-  user_id?: Maybe<Scalars['Int']>;
-  phone?: Maybe<Scalars['String']>;
-  current_user_id?: Maybe<Scalars['Int']>;
-}
-
-
-export interface UserQryOpsGetArgs {
+export type UserQryOpsRelativeArgs = {
   user_id?: Maybe<Scalars['Int']>;
   phone?: Maybe<Scalars['String']>;
   current_user_id?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface UserQryOpsReviewsArgs {
+export type UserQryOps_GetArgs = {
+  user_id?: Maybe<Scalars['Int']>;
+  phone?: Maybe<Scalars['String']>;
+  current_user_id?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserQryOpsReviewsArgs = {
   user_id: Scalars['Int'];
   offset?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface UserQryOpsIsRegisteredTokenArgs {
+export type UserQryOpsIsRegisteredTokenArgs = {
   type: AppType;
   device_id: Scalars['String'];
-}
+};
 
 
-export interface UserQryOpsGetPhonesArgs {
+export type UserQryOpsGetPhonesArgs = {
   user_id: Scalars['Int'];
-}
+};
 
-export interface User {
+export type User = {
   __typename?: 'User';
   user_id?: Maybe<Scalars['Int']>;
   phone?: Maybe<Scalars['Float']>;
@@ -169,9 +200,9 @@ export interface User {
   can_boost?: Maybe<Scalars['Boolean']>;
   enable_video?: Maybe<Scalars['Int']>;
   iam_verified?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface RelativeUser {
+export type RelativeUser = {
   __typename?: 'RelativeUser';
   user_id?: Maybe<Scalars['Int']>;
   phone?: Maybe<Scalars['Float']>;
@@ -199,15 +230,15 @@ export interface RelativeUser {
   blocked?: Maybe<Scalars['Boolean']>;
   followed?: Maybe<Scalars['Boolean']>;
   last_seen?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface UserReviews {
+export type UserReviews = {
   __typename?: 'UserReviews';
   reviews?: Maybe<Array<Maybe<Review>>>;
   total?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface Review {
+export type Review = {
   __typename?: 'Review';
   review_id?: Maybe<Scalars['Int']>;
   reviewer_id?: Maybe<Scalars['Int']>;
@@ -216,25 +247,25 @@ export interface Review {
   create_time?: Maybe<Scalars['Float']>;
   reason?: Maybe<Scalars['String']>;
   last_update?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface PublicUserQryOps {
+export type PublicUserQryOps = {
   __typename?: 'PublicUserQryOps';
   get?: Maybe<PublicUserData>;
-}
+};
 
 
-export interface PublicUserQryOpsGetArgs {
+export type PublicUserQryOpsGetArgs = {
   user_id: Scalars['Int'];
-}
+};
 
-export interface PublicUserData {
+export type PublicUserData = {
   __typename?: 'PublicUserData';
   user_id?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface ListingQryOps {
+export type ListingQryOps = {
   __typename?: 'ListingQryOps';
   get?: Maybe<Listing>;
   relative?: Maybe<RelativeListing>;
@@ -245,58 +276,58 @@ export interface ListingQryOps {
   getAwqafReviewed?: Maybe<PListings>;
   getListingByOwnerOtp?: Maybe<Listing>;
   getVerifyListingByOwnerOtp?: Maybe<Listing>;
-}
+};
 
 
-export interface ListingQryOpsGetArgs {
+export type ListingQryOpsGetArgs = {
   id?: Maybe<Scalars['Int']>;
   uri?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface ListingQryOpsRelativeArgs {
+export type ListingQryOpsRelativeArgs = {
   id: Scalars['Int'];
   current_user_id?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ListingQryOpsGetArgs {
+export type ListingQryOps_GetArgs = {
   id: Scalars['Int'];
   current_user_id?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ListingQryOpsViewsArgs {
+export type ListingQryOpsViewsArgs = {
   id: Scalars['Int'];
-}
+};
 
 
-export interface ListingQryOpsGetExtraInfoArgs {
+export type ListingQryOpsGetExtraInfoArgs = {
   id: Scalars['Int'];
-}
+};
 
 
-export interface ListingQryOpsBookingsArgs {
+export type ListingQryOpsBookingsArgs = {
   id: Scalars['Int'];
-}
+};
 
 
-export interface ListingQryOpsGetAwqafReviewedArgs {
+export type ListingQryOpsGetAwqafReviewedArgs = {
   polygon?: Maybe<Array<LocationInput>>;
   where?: Maybe<AwqafListingFilter>;
-}
+};
 
 
-export interface ListingQryOpsGetListingByOwnerOtpArgs {
+export type ListingQryOpsGetListingByOwnerOtpArgs = {
   owner_otp: Scalars['String'];
-}
+};
 
 
-export interface ListingQryOpsGetVerifyListingByOwnerOtpArgs {
+export type ListingQryOpsGetVerifyListingByOwnerOtpArgs = {
   owner_otp: Scalars['String'];
-}
+};
 
-export interface Listing {
+export type Listing = {
   __typename?: 'Listing';
   id?: Maybe<Scalars['Int']>;
   create_time?: Maybe<Scalars['Float']>;
@@ -391,22 +422,22 @@ export interface Listing {
   appraisal?: Maybe<Appraisal>;
   virtual_tour_link?: Maybe<Scalars['String']>;
   accurate_location?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface Location {
+export type Location = {
   __typename?: 'Location';
   lat: Scalars['Float'];
   lng: Scalars['Float'];
-}
+};
 
-export interface Service {
+export type Service = {
   __typename?: 'Service';
   location?: Maybe<Location>;
   name?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ListingUser {
+export type ListingUser = {
   __typename?: 'ListingUser';
   phone?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
@@ -416,41 +447,41 @@ export interface ListingUser {
   fee?: Maybe<Scalars['Int']>;
   review?: Maybe<Scalars['Float']>;
   iam_verified?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface Video {
+export type Video = {
   __typename?: 'Video';
   video: Scalars['String'];
   thumbnail?: Maybe<Scalars['String']>;
   orientation?: Maybe<Orientation>;
-}
+};
 
 export enum Orientation {
   Landscape = 'landscape',
   Portrait = 'portrait'
 }
 
-export interface ListingSubscription {
+export type ListingSubscription = {
   __typename?: 'ListingSubscription';
   phones?: Maybe<Array<Maybe<Scalars['Float']>>>;
   about?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   img?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ListingEmployee {
+export type ListingEmployee = {
   __typename?: 'ListingEmployee';
   phone?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   img?: Maybe<Scalars['String']>;
-}
+};
 
-export interface StcCoverage {
+export type StcCoverage = {
   __typename?: 'StcCoverage';
   fifth_generation?: Maybe<Scalars['Boolean']>;
   fourth_generation?: Maybe<Scalars['Boolean']>;
   fiber?: Maybe<Scalars['Boolean']>;
-}
+};
 
 export enum DeedIdTypes {
   Nid = 'nid',
@@ -458,11 +489,11 @@ export enum DeedIdTypes {
   Crno = 'crno'
 }
 
-export interface AwqafQuestionAnswer {
+export type AwqafQuestionAnswer = {
   __typename?: 'awqafQuestionAnswer';
   question?: Maybe<Scalars['String']>;
   answer?: Maybe<Scalars['String']>;
-}
+};
 
 export enum AdvertiserTypes {
   Owner = 'owner',
@@ -475,7 +506,7 @@ export enum Appraisal {
   Bab = 'BAB'
 }
 
-export interface RelativeListing {
+export type RelativeListing = {
   __typename?: 'RelativeListing';
   id?: Maybe<Scalars['Int']>;
   create_time?: Maybe<Scalars['Float']>;
@@ -573,31 +604,31 @@ export interface RelativeListing {
   followed?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
   details?: Maybe<Array<Maybe<Scalars['String']>>>;
-}
+};
 
-export interface ListingExtraInfo {
+export type ListingExtraInfo = {
   __typename?: 'ListingExtraInfo';
   views: Scalars['Int'];
   support_imgs: Array<Maybe<Scalars['String']>>;
   support_imgs_desc: Array<Maybe<Scalars['String']>>;
-}
+};
 
-export interface LocationInput {
+export type LocationInput = {
   lat: Scalars['Float'];
   lng: Scalars['Float'];
-}
+};
 
-export interface AwqafListingFilter {
+export type AwqafListingFilter = {
   category?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface PListings {
+export type PListings = {
   __typename?: 'PListings';
   listings?: Maybe<Array<Maybe<Listing>>>;
   total?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface SearchQryOps {
+export type SearchQryOps = {
   __typename?: 'SearchQryOps';
   predict?: Maybe<Array<Maybe<Prediction>>>;
   details?: Maybe<ViewPort>;
@@ -610,21 +641,21 @@ export interface SearchQryOps {
   projects?: Maybe<Projects>;
   project?: Maybe<Project>;
   commercialListings?: Maybe<CommercialListings>;
-}
+};
 
 
-export interface SearchQryOpsPredictArgs {
+export type SearchQryOpsPredictArgs = {
   prefix: Scalars['String'];
   location?: Maybe<LocationInput>;
-}
+};
 
 
-export interface SearchQryOpsDetailsArgs {
+export type SearchQryOpsDetailsArgs = {
   place_id: Scalars['String'];
-}
+};
 
 
-export interface SearchQryOpsFindArgs {
+export type SearchQryOpsFindArgs = {
   where?: Maybe<WhereInput>;
   polygon?: Maybe<Array<LocationInput>>;
   sort?: Maybe<SortInput>;
@@ -633,70 +664,70 @@ export interface SearchQryOpsFindArgs {
   refreshed?: Maybe<Scalars['Boolean']>;
   premium?: Maybe<Scalars['Boolean']>;
   structure?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface SearchQryOpsPremiumArgs {
+export type SearchQryOpsPremiumArgs = {
   category?: Maybe<Scalars['Int']>;
   polygon: Array<LocationInput>;
   size?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface SearchQryOpsCommercialArgs {
+export type SearchQryOpsCommercialArgs = {
   category?: Maybe<Scalars['Int']>;
   polygon: Array<LocationInput>;
   size?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface SearchQryOpsCountArgs {
+export type SearchQryOpsCountArgs = {
   where?: Maybe<WhereInput>;
   polygon?: Maybe<Array<LocationInput>>;
-}
+};
 
 
-export interface SearchQryOpsStatsArgs {
+export type SearchQryOpsStatsArgs = {
   category: Scalars['Int'];
   location: LocationInput;
-}
+};
 
 
-export interface SearchQryOpsRelatedArgs {
+export type SearchQryOpsRelatedArgs = {
   id?: Maybe<Scalars['Int']>;
   size?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface SearchQryOpsProjectsArgs {
+export type SearchQryOpsProjectsArgs = {
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface SearchQryOpsProjectArgs {
+export type SearchQryOpsProjectArgs = {
   project_id: Scalars['Int'];
-}
+};
 
 
-export interface SearchQryOpsCommercialListingsArgs {
+export type SearchQryOpsCommercialListingsArgs = {
   where?: Maybe<WhereInput>;
   structure?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface Prediction {
+export type Prediction = {
   __typename?: 'Prediction';
   description?: Maybe<Scalars['String']>;
   place_id?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ViewPort {
+export type ViewPort = {
   __typename?: 'ViewPort';
   northeast?: Maybe<Location>;
   southwest?: Maybe<Location>;
-}
+};
 
-export interface WhereInput {
+export type WhereInput = {
   has_img?: Maybe<IntSearchField>;
   has_video?: Maybe<IntSearchField>;
   special?: Maybe<IntSearchField>;
@@ -753,10 +784,10 @@ export interface WhereInput {
   appraisal_id?: Maybe<IntSearchField>;
   verified_owner?: Maybe<IntSearchField>;
   verified_office?: Maybe<IntSearchField>;
-}
+};
 
 /** If "eq" field exist the other fields will be ignored and if "gt" and/or "lt" fields exist , "ge" and/or "le" fields will be ignored */
-export interface IntSearchField {
+export type IntSearchField = {
   eq?: Maybe<Scalars['Int']>;
   gt?: Maybe<Scalars['Int']>;
   lt?: Maybe<Scalars['Int']>;
@@ -765,10 +796,10 @@ export interface IntSearchField {
   neq?: Maybe<Scalars['Int']>;
   inar?: Maybe<Array<Maybe<Scalars['Int']>>>;
   ninar?: Maybe<Array<Maybe<Scalars['Int']>>>;
-}
+};
 
 /** If "eq" field exist the other fields will be ignored and if "gt" and/or "lt" fields exist , "ge" and/or "le" fields will be ignored */
-export interface FloatSearchField {
+export type FloatSearchField = {
   eq?: Maybe<Scalars['Float']>;
   gt?: Maybe<Scalars['Float']>;
   lt?: Maybe<Scalars['Float']>;
@@ -777,9 +808,9 @@ export interface FloatSearchField {
   neq?: Maybe<Scalars['Float']>;
   inar?: Maybe<Array<Maybe<Scalars['Float']>>>;
   ninar?: Maybe<Array<Maybe<Scalars['Float']>>>;
-}
+};
 
-export interface SortInput {
+export type SortInput = {
   has_img?: Maybe<SortType>;
   has_video?: Maybe<SortType>;
   special?: Maybe<SortType>;
@@ -836,21 +867,21 @@ export interface SortInput {
   appraisal_id?: Maybe<SortType>;
   verified_owner?: Maybe<SortType>;
   verified_office?: Maybe<SortType>;
-}
+};
 
 export enum SortType {
   Asc = 'asc',
   Desc = 'desc'
 }
 
-export interface FindResults {
+export type FindResults = {
   __typename?: 'FindResults';
   total?: Maybe<Scalars['Int']>;
   listings?: Maybe<Array<Maybe<ElasticListing>>>;
   featured?: Maybe<Array<Maybe<ElasticListing>>>;
-}
+};
 
-export interface ElasticListing {
+export type ElasticListing = {
   __typename?: 'ElasticListing';
   id?: Maybe<Scalars['Int']>;
   boosted?: Maybe<Scalars['Int']>;
@@ -925,38 +956,38 @@ export interface ElasticListing {
   virtual_tour_link?: Maybe<Scalars['String']>;
   address?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
-}
+};
 
-export interface Stats {
+export type Stats = {
   __typename?: 'Stats';
   name?: Maybe<Scalars['String']>;
   district_id?: Maybe<Scalars['Int']>;
   values?: Maybe<Array<Maybe<StateValue>>>;
-}
+};
 
-export interface StateValue {
+export type StateValue = {
   __typename?: 'StateValue';
   time_range?: Maybe<Scalars['String']>;
   year?: Maybe<Scalars['Int']>;
   order?: Maybe<Scalars['Int']>;
   count?: Maybe<Scalars['Int']>;
   price?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface RelatedResult {
+export type RelatedResult = {
   __typename?: 'RelatedResult';
   listings?: Maybe<Array<Maybe<ElasticListing>>>;
   title?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
-}
+};
 
-export interface Projects {
+export type Projects = {
   __typename?: 'Projects';
   list?: Maybe<Array<Maybe<Project>>>;
   total?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface Project {
+export type Project = {
   __typename?: 'Project';
   project_id?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
@@ -967,15 +998,15 @@ export interface Project {
   category?: Maybe<Scalars['Int']>;
   create_time?: Maybe<Scalars['Float']>;
   last_update?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface CommercialListings {
+export type CommercialListings = {
   __typename?: 'CommercialListings';
   total?: Maybe<Scalars['Int']>;
   listings?: Maybe<Array<Maybe<CommercialListing>>>;
-}
+};
 
-export interface CommercialListing {
+export type CommercialListing = {
   __typename?: 'CommercialListing';
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['String']>;
@@ -1068,9 +1099,9 @@ export interface CommercialListing {
   appraisal_id?: Maybe<Scalars['Int']>;
   appraisal?: Maybe<Appraisal>;
   virtual_tour_link?: Maybe<Scalars['String']>;
-}
+};
 
-export interface WebQryOps {
+export type WebQryOps = {
   __typename?: 'WebQryOps';
   categories?: Maybe<Array<Maybe<Category>>>;
   cities?: Maybe<Array<Maybe<City>>>;
@@ -1087,89 +1118,84 @@ export interface WebQryOps {
   getUpdate?: Maybe<Update>;
   getUser?: Maybe<User>;
   getPhone?: Maybe<Scalars['Float']>;
-}
+};
 
 
-export interface WebQryOpsCategoriesArgs {
+export type WebQryOpsCategoriesArgs = {
   lang: Langs;
-}
+};
 
 
-export interface WebQryOpsCitiesArgs {
+export type WebQryOpsCitiesArgs = {
   category: Scalars['Int'];
-}
+};
 
 
-export interface WebQryOpsDirectionsArgs {
+export type WebQryOpsDirectionsArgs = {
   category: Scalars['Int'];
   city_id: Scalars['Int'];
-}
+};
 
 
-export interface WebQryOpsDistrictsArgs {
+export type WebQryOpsDistrictsArgs = {
   category: Scalars['Int'];
   city_id: Scalars['Int'];
   direction_id?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface WebQryOpsListingArgs {
+export type WebQryOpsListingArgs = {
   id?: Maybe<Scalars['Int']>;
   uri?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface WebQryOpsFindArgs {
+export type WebQryOpsFindArgs = {
   where?: Maybe<WhereInput>;
   polygon?: Maybe<Array<LocationInput>>;
   sort?: Maybe<SortInput>;
   size?: Maybe<Scalars['Int']>;
   from?: Maybe<Scalars['Int']>;
   structure?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface WebQryOpsSpecialArgs {
+export type WebQryOpsSpecialArgs = {
   category: Scalars['Int'];
   city_id?: Maybe<Scalars['Int']>;
   district_id?: Maybe<Scalars['Int']>;
   size?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface WebQryOpsRelatedArgs {
+export type WebQryOpsRelatedArgs = {
   id?: Maybe<Scalars['Int']>;
   uri?: Maybe<Scalars['String']>;
   size?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface WebQryOpsStatsArgs {
+export type WebQryOpsStatsArgs = {
   category: Scalars['Int'];
   city_id: Scalars['Int'];
-}
+};
 
 
-export interface WebQryOpsGetUpdateArgs {
+export type WebQryOpsGetUpdateArgs = {
   update_id: Scalars['Int'];
-}
+};
 
 
-export interface WebQryOpsGetUserArgs {
+export type WebQryOpsGetUserArgs = {
   user_id: Scalars['Int'];
-}
+};
 
 
-export interface WebQryOpsGetPhoneArgs {
+export type WebQryOpsGetPhoneArgs = {
   id: Scalars['Int'];
-}
+};
 
-export enum Langs {
-  Ar = 'ar',
-  En = 'en'
-}
-
-export interface Category {
+export type Category = {
   __typename?: 'Category';
   name?: Maybe<Scalars['String']>;
   plural?: Maybe<Scalars['String']>;
@@ -1177,9 +1203,9 @@ export interface Category {
   path?: Maybe<Scalars['String']>;
   keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
   id?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface City {
+export type City = {
   __typename?: 'City';
   name?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -1189,9 +1215,9 @@ export interface City {
   count?: Maybe<Scalars['Int']>;
   category?: Maybe<Category>;
   directions?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface Direction {
+export type Direction = {
   __typename?: 'Direction';
   name?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -1201,9 +1227,9 @@ export interface Direction {
   category?: Maybe<Category>;
   city?: Maybe<City>;
   count?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface District {
+export type District = {
   __typename?: 'District';
   name?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -1214,40 +1240,40 @@ export interface District {
   city?: Maybe<City>;
   direction?: Maybe<Direction>;
   count?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface Region {
+export type Region = {
   __typename?: 'Region';
   district?: Maybe<DistrictType>;
   direction?: Maybe<DirectionType>;
   city?: Maybe<CityType>;
-}
+};
 
-export interface DistrictType {
+export type DistrictType = {
   __typename?: 'DistrictType';
   district_id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   uri?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
-}
+};
 
-export interface DirectionType {
+export type DirectionType = {
   __typename?: 'DirectionType';
   direction_id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   uri?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
-}
+};
 
-export interface CityType {
+export type CityType = {
   __typename?: 'CityType';
   city_id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   uri?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
-}
+};
 
-export interface WebListing {
+export type WebListing = {
   __typename?: 'WebListing';
   title?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
@@ -1349,22 +1375,22 @@ export interface WebListing {
   accurate_location?: Maybe<Scalars['Boolean']>;
   links?: Maybe<WebLinks>;
   details?: Maybe<Array<Maybe<Scalars['String']>>>;
-}
+};
 
-export interface WebLinks {
+export type WebLinks = {
   __typename?: 'WebLinks';
   city?: Maybe<City>;
   direction?: Maybe<Direction>;
   district?: Maybe<District>;
-}
+};
 
-export interface WebResults {
+export type WebResults = {
   __typename?: 'WebResults';
   total?: Maybe<Scalars['Int']>;
   listings?: Maybe<Array<Maybe<ElasticWebListing>>>;
-}
+};
 
-export interface ElasticWebListing {
+export type ElasticWebListing = {
   __typename?: 'ElasticWebListing';
   id?: Maybe<Scalars['Int']>;
   boosted?: Maybe<Scalars['Int']>;
@@ -1446,67 +1472,67 @@ export interface ElasticWebListing {
   path?: Maybe<Scalars['String']>;
   uri?: Maybe<Scalars['String']>;
   native?: Maybe<WebNativeListing>;
-}
+};
 
-export interface WebNativeListing {
+export type WebNativeListing = {
   __typename?: 'WebNativeListing';
   logo?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   external_url?: Maybe<Scalars['String']>;
-}
+};
 
-export interface SpecialWebResults {
+export type SpecialWebResults = {
   __typename?: 'SpecialWebResults';
   city?: Maybe<WebResults>;
   district?: Maybe<WebResults>;
-}
+};
 
-export interface RelatedWebResults {
+export type RelatedWebResults = {
   __typename?: 'RelatedWebResults';
   listings?: Maybe<Array<Maybe<ElasticWebListing>>>;
   title?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
-}
+};
 
-export interface NewsQryOps {
+export type NewsQryOps = {
   __typename?: 'NewsQryOps';
   fetchNews?: Maybe<FetchNewsOutput>;
-}
+};
 
 
-export interface NewsQryOpsFetchNewsArgs {
+export type NewsQryOpsFetchNewsArgs = {
   offset?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface FetchNewsOutput {
+export type FetchNewsOutput = {
   __typename?: 'FetchNewsOutput';
   list?: Maybe<Array<NewsItemOutput>>;
   offset?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface NewsItemOutput {
+export type NewsItemOutput = {
   __typename?: 'NewsItemOutput';
   timestamp?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['String']>;
   img?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface RatingQryOps {
+export type RatingQryOps = {
   __typename?: 'RatingQryOps';
   getDistrictRate?: Maybe<RateOutput>;
-}
+};
 
 
-export interface RatingQryOpsGetDistrictRateArgs {
+export type RatingQryOpsGetDistrictRateArgs = {
   district_id: Scalars['Int'];
   offset?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface RateOutput {
+export type RateOutput = {
   __typename?: 'RateOutput';
   rate?: Maybe<Scalars['Float']>;
   rate_count?: Maybe<Scalars['Int']>;
@@ -1517,9 +1543,9 @@ export interface RateOutput {
   educational_services_rate?: Maybe<Scalars['Float']>;
   list?: Maybe<Array<RateItemOutput>>;
   offset?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface RateItemOutput {
+export type RateItemOutput = {
   __typename?: 'RateItemOutput';
   id?: Maybe<Scalars['Int']>;
   created_time?: Maybe<Scalars['Float']>;
@@ -1541,22 +1567,22 @@ export interface RateItemOutput {
   pharmacies?: Maybe<Scalars['Boolean']>;
   medical_center?: Maybe<Scalars['Boolean']>;
   medical_center_review?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface OfficesQryOps {
+export type OfficesQryOps = {
   __typename?: 'OfficesQryOps';
   packages?: Maybe<Array<Maybe<SubscriptionPackageType>>>;
   fees?: Maybe<Array<Maybe<PaymentsFeesType>>>;
   getProfile?: Maybe<OfficeProfile>;
   Ejar?: Maybe<EjarQryOps>;
-}
+};
 
 
-export interface OfficesQryOpsGetProfileArgs {
+export type OfficesQryOpsGetProfileArgs = {
   mgr_user_id: Scalars['Int'];
-}
+};
 
-export interface SubscriptionPackageType {
+export type SubscriptionPackageType = {
   __typename?: 'SubscriptionPackageType';
   max_users?: Maybe<Scalars['Int']>;
   max_boosts?: Maybe<Scalars['Int']>;
@@ -1569,9 +1595,9 @@ export interface SubscriptionPackageType {
   sub_pkg_type?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['Int']>;
   value?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface PaymentsFeesType {
+export type PaymentsFeesType = {
   __typename?: 'PaymentsFeesType';
   name_ar?: Maybe<Scalars['String']>;
   name_en?: Maybe<Scalars['String']>;
@@ -1581,34 +1607,34 @@ export interface PaymentsFeesType {
   category_name?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['Int']>;
   value?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface OfficeProfile {
+export type OfficeProfile = {
   __typename?: 'OfficeProfile';
   name?: Maybe<Scalars['String']>;
   img?: Maybe<Scalars['String']>;
   phones?: Maybe<Array<Maybe<Scalars['Float']>>>;
   about?: Maybe<Scalars['String']>;
-}
+};
 
-export interface EjarQryOps {
+export type EjarQryOps = {
   __typename?: 'EjarQryOps';
   getFees?: Maybe<Array<Maybe<TransactionType>>>;
   getResidentialRentContractFees?: Maybe<TransactionType>;
   getCommercialRentContractFees?: Maybe<TransactionType>;
-}
+};
 
 
-export interface EjarQryOpsGetResidentialRentContractFeesArgs {
+export type EjarQryOpsGetResidentialRentContractFeesArgs = {
   contract_id: Scalars['Int'];
-}
+};
 
 
-export interface EjarQryOpsGetCommercialRentContractFeesArgs {
+export type EjarQryOpsGetCommercialRentContractFeesArgs = {
   contract_id: Scalars['Int'];
-}
+};
 
-export interface TransactionType {
+export type TransactionType = {
   __typename?: 'TransactionType';
   createdAt?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
@@ -1618,48 +1644,48 @@ export interface TransactionType {
   transaction_category?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   category_name?: Maybe<Scalars['String']>;
-}
+};
 
-export interface LegalConsultationQryOps {
+export type LegalConsultationQryOps = {
   __typename?: 'LegalConsultationQryOps';
   getLegalConsultationFees?: Maybe<TransactionType>;
-}
+};
 
 
-export interface LegalConsultationQryOpsGetLegalConsultationFeesArgs {
+export type LegalConsultationQryOpsGetLegalConsultationFeesArgs = {
   request_id: Scalars['Int'];
-}
+};
 
-export interface HomePlansOpenQryOps {
+export type HomePlansOpenQryOps = {
   __typename?: 'HomePlansOpenQryOps';
   list?: Maybe<HomePlans>;
   getById?: Maybe<HomePlan>;
   buildingCalculatorConstants?: Maybe<BuildingCalculatorConstants>;
   buildingCalculator?: Maybe<BuildingCalculatorResult>;
   getCategories?: Maybe<Array<Maybe<HomePlansCategory>>>;
-}
+};
 
 
-export interface HomePlansOpenQryOpsListArgs {
+export type HomePlansOpenQryOpsListArgs = {
   filter?: Maybe<HomePlansFilter>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   order_by?: Maybe<HomePlansSortOptions>;
-}
+};
 
 
-export interface HomePlansOpenQryOpsGetByIdArgs {
+export type HomePlansOpenQryOpsGetByIdArgs = {
   home_plan_id: Scalars['Int'];
-}
+};
 
 
-export interface HomePlansOpenQryOpsBuildingCalculatorArgs {
+export type HomePlansOpenQryOpsBuildingCalculatorArgs = {
   land_area: Scalars['Float'];
   floors_type: FloorsType;
   basement_area?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface HomePlansFilter {
+export type HomePlansFilter = {
   area?: Maybe<IntSearchField>;
   rooms?: Maybe<IntSearchField>;
   floors?: Maybe<IntSearchField>;
@@ -1679,20 +1705,20 @@ export interface HomePlansFilter {
   basement?: Maybe<Scalars['Boolean']>;
   extension?: Maybe<Scalars['Boolean']>;
   category?: Maybe<Scalars['Int']>;
-}
+};
 
 export enum HomePlansSortOptions {
   CreatedAt = 'createdAt',
   PurchasedTimes = 'purchased_times'
 }
 
-export interface HomePlans {
+export type HomePlans = {
   __typename?: 'HomePlans';
   total?: Maybe<Scalars['Int']>;
   plans?: Maybe<Array<Maybe<HomePlan>>>;
-}
+};
 
-export interface HomePlan {
+export type HomePlan = {
   __typename?: 'HomePlan';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1723,23 +1749,23 @@ export interface HomePlan {
   basement?: Maybe<Scalars['Boolean']>;
   extension?: Maybe<Scalars['Boolean']>;
   category?: Maybe<Scalars['Int']>;
-}
+};
 
 export enum HomePlanStatuses {
   Active = 'active',
   Inactive = 'inactive'
 }
 
-export interface Partner {
+export type Partner = {
   __typename?: 'Partner';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   about?: Maybe<Scalars['String']>;
   logo_img?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface BuildingCalculatorConstants {
+export type BuildingCalculatorConstants = {
   __typename?: 'BuildingCalculatorConstants';
   structural_meter_cost?: Maybe<Scalars['Float']>;
   finishing_meter_cost?: Maybe<Array<Maybe<Scalars['Float']>>>;
@@ -1750,7 +1776,7 @@ export interface BuildingCalculatorConstants {
   roof_area_percentage?: Maybe<Scalars['Float']>;
   basement_area_percentage?: Maybe<Scalars['Float']>;
   other_costs_factor?: Maybe<Scalars['Float']>;
-}
+};
 
 export enum FloorsType {
   OneFloor = 'one_floor',
@@ -1758,7 +1784,7 @@ export enum FloorsType {
   TwoFloorsWithRoof = 'two_floors_with_roof'
 }
 
-export interface BuildingCalculatorResult {
+export type BuildingCalculatorResult = {
   __typename?: 'BuildingCalculatorResult';
   ground_floor_area?: Maybe<Scalars['Float']>;
   first_floor_area?: Maybe<Scalars['Float']>;
@@ -1771,26 +1797,26 @@ export interface BuildingCalculatorResult {
   structural_concrete_cost?: Maybe<Scalars['Float']>;
   finishing_costs?: Maybe<Array<Maybe<Scalars['Float']>>>;
   turnkey_costs?: Maybe<Array<Maybe<Scalars['Float']>>>;
-}
+};
 
-export interface HomePlansCategory {
+export type HomePlansCategory = {
   __typename?: 'HomePlansCategory';
   id?: Maybe<Scalars['Int']>;
   name_en?: Maybe<Scalars['String']>;
   name_ar?: Maybe<Scalars['String']>;
-}
+};
 
-export interface HomeFinancingQryOps {
+export type HomeFinancingQryOps = {
   __typename?: 'HomeFinancingQryOps';
   AlahliCalculator?: Maybe<AlahliLoanDetails>;
-}
+};
 
 
-export interface HomeFinancingQryOpsAlahliCalculatorArgs {
+export type HomeFinancingQryOpsAlahliCalculatorArgs = {
   data: AlahliLoanInput;
-}
+};
 
-export interface AlahliLoanInput {
+export type AlahliLoanInput = {
   type?: Maybe<AlahliApplicationTypes>;
   birth_date: Scalars['Float'];
   job: AlahliJobTypes;
@@ -1799,7 +1825,7 @@ export interface AlahliLoanInput {
   personal_financing_installment_amount?: Maybe<Scalars['Float']>;
   personal_financing_installment_months?: Maybe<Scalars['Int']>;
   monthly_obligations?: Maybe<Scalars['Float']>;
-}
+};
 
 export enum AlahliApplicationTypes {
   Redf = 'REDF',
@@ -1829,7 +1855,7 @@ export enum AlahliJobMilitaryRanks {
   General = 'GENERAL'
 }
 
-export interface AlahliLoanDetails {
+export type AlahliLoanDetails = {
   __typename?: 'AlahliLoanDetails';
   EligibleLoanAmount?: Maybe<Scalars['Float']>;
   AnnualPercentageRate?: Maybe<Scalars['String']>;
@@ -1842,56 +1868,56 @@ export interface AlahliLoanDetails {
   MonthlyInstalmentsAfterRetirement?: Maybe<Scalars['Float']>;
   TenorAfterRetirementMonths?: Maybe<Scalars['Int']>;
   ResultDetails?: Maybe<Array<Maybe<AlahliLoanDetailsColumn>>>;
-}
+};
 
-export interface AlahliLoanDetailsColumn {
+export type AlahliLoanDetailsColumn = {
   __typename?: 'AlahliLoanDetailsColumn';
   name_ar?: Maybe<Scalars['String']>;
   name_en?: Maybe<Scalars['String']>;
   installment?: Maybe<Scalars['Float']>;
   months?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface ThreeDimensionalOpenQryOps {
+export type ThreeDimensionalOpenQryOps = {
   __typename?: 'ThreeDimensionalOpenQryOps';
   listCategories?: Maybe<Array<Maybe<ThreeDimensionalDesignsCategory>>>;
   list?: Maybe<ThreeDimensionalDesigns>;
   getConfigs?: Maybe<ThreeDimensionalConfigs>;
   getSimilarDesigns?: Maybe<Array<Maybe<ThreeDimensionalDesign>>>;
   get?: Maybe<ThreeDimensionalDesign>;
-}
+};
 
 
-export interface ThreeDimensionalOpenQryOpsListArgs {
+export type ThreeDimensionalOpenQryOpsListArgs = {
   category_id?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ThreeDimensionalOpenQryOpsGetSimilarDesignsArgs {
+export type ThreeDimensionalOpenQryOpsGetSimilarDesignsArgs = {
   design_id: Scalars['Int'];
-}
+};
 
 
-export interface ThreeDimensionalOpenQryOpsGetArgs {
+export type ThreeDimensionalOpenQryOpsGetArgs = {
   design_id: Scalars['Int'];
-}
+};
 
-export interface ThreeDimensionalDesignsCategory {
+export type ThreeDimensionalDesignsCategory = {
   __typename?: 'ThreeDimensionalDesignsCategory';
   id?: Maybe<Scalars['Int']>;
   name_en?: Maybe<Scalars['String']>;
   name_ar?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ThreeDimensionalDesigns {
+export type ThreeDimensionalDesigns = {
   __typename?: 'ThreeDimensionalDesigns';
   total?: Maybe<Scalars['Int']>;
   designs?: Maybe<Array<Maybe<ThreeDimensionalDesign>>>;
-}
+};
 
-export interface ThreeDimensionalDesign {
+export type ThreeDimensionalDesign = {
   __typename?: 'ThreeDimensionalDesign';
   id?: Maybe<Scalars['Int']>;
   name_en?: Maybe<Scalars['String']>;
@@ -1909,30 +1935,30 @@ export interface ThreeDimensionalDesign {
   cover_img_height?: Maybe<Scalars['Float']>;
   status?: Maybe<ThreeDimensionalDesignDesignStatus>;
   likes?: Maybe<Scalars['Float']>;
-}
+};
 
 export enum ThreeDimensionalDesignDesignStatus {
   Active = 'active',
   Inactive = 'inactive'
 }
 
-export interface ThreeDimensionalConfigs {
+export type ThreeDimensionalConfigs = {
   __typename?: 'ThreeDimensionalConfigs';
   transaction_type?: Maybe<Scalars['Int']>;
   banner?: Maybe<Scalars['String']>;
   support_user_ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
-}
+};
 
-export interface Mutation {
+export type Mutation = {
   __typename?: 'Mutation';
   User?: Maybe<UserMutOps>;
   PublicUser?: Maybe<PublicUserMutOps>;
   Listing?: Maybe<ListingMutOps>;
   Web?: Maybe<WebMutOps>;
   Request?: Maybe<RequestMutOps>;
-}
+};
 
-export interface UserMutOps {
+export type UserMutOps = {
   __typename?: 'UserMutOps';
   create?: Maybe<User>;
   verify?: Maybe<AuthUser>;
@@ -1953,130 +1979,130 @@ export interface UserMutOps {
   verifyIdentityByOwnerOtp?: Maybe<Scalars['Boolean']>;
   putListingVerificationDeedByOtp?: Maybe<Scalars['String']>;
   cancelMailSubscription?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface UserMutOpsCreateArgs {
+export type UserMutOpsCreateArgs = {
   phone: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsVerifyArgs {
+export type UserMutOpsVerifyArgs = {
   phone: Scalars['String'];
   vcode: Scalars['String'];
   pw: Scalars['String'];
   public_token?: Maybe<Scalars['String']>;
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserMutOpsChangePasswordArgs {
+export type UserMutOpsChangePasswordArgs = {
   phone: Scalars['String'];
   pw: Scalars['String'];
   npw: Scalars['String'];
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserMutOpsForgetPasswordArgs {
+export type UserMutOpsForgetPasswordArgs = {
   phone: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsUpdateForgetPasswordArgs {
+export type UserMutOpsUpdateForgetPasswordArgs = {
   phone: Scalars['String'];
   vcode: Scalars['String'];
   pw: Scalars['String'];
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserMutOpsUpdateChangePhoneArgs {
+export type UserMutOpsUpdateChangePhoneArgs = {
   phone: Scalars['String'];
   vcode: Scalars['String'];
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserMutOpsCreateLoanArgs {
+export type UserMutOpsCreateLoanArgs = {
   loan?: Maybe<CreateLoanInput>;
-}
+};
 
 
-export interface UserMutOpsInitLoanArgs {
+export type UserMutOpsInitLoanArgs = {
   phone: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsSendLoanArgs {
+export type UserMutOpsSendLoanArgs = {
   loan: CreateLoanInput;
   vcode: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsCallArgs {
+export type UserMutOpsCallArgs = {
   user_id: Scalars['Int'];
-}
+};
 
 
-export interface UserMutOpsClearDeviceIdArgs {
+export type UserMutOpsClearDeviceIdArgs = {
   device_id: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsLoginArgs {
+export type UserMutOpsLoginArgs = {
   phone: Scalars['String'];
   pw: Scalars['String'];
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface UserMutOpsDeleteArgs {
+export type UserMutOpsDeleteArgs = {
   user_id: Scalars['Int'];
-}
+};
 
 
-export interface UserMutOpsLoginOtpArgs {
+export type UserMutOpsLoginOtpArgs = {
   pw: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsRegisterTokenArgs {
+export type UserMutOpsRegisterTokenArgs = {
   type: AppType;
   device_id: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsUnregisterTokenArgs {
+export type UserMutOpsUnregisterTokenArgs = {
   type: AppType;
   device_id: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsVerifyIdentityByOwnerOtpArgs {
+export type UserMutOpsVerifyIdentityByOwnerOtpArgs = {
   owner_otp: Scalars['String'];
   otp: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsPutListingVerificationDeedByOtpArgs {
+export type UserMutOpsPutListingVerificationDeedByOtpArgs = {
   owner_otp: Scalars['String'];
   filename: Scalars['String'];
-}
+};
 
 
-export interface UserMutOpsCancelMailSubscriptionArgs {
+export type UserMutOpsCancelMailSubscriptionArgs = {
   token: Scalars['String'];
   email: Scalars['String'];
-}
+};
 
-export interface AuthUser {
+export type AuthUser = {
   __typename?: 'AuthUser';
   user?: Maybe<AuthUserField>;
   token?: Maybe<Scalars['String']>;
-}
+};
 
-export interface AuthUserField {
+export type AuthUserField = {
   __typename?: 'AuthUserField';
   user_id?: Maybe<Scalars['Int']>;
   phone?: Maybe<Scalars['Float']>;
@@ -2108,7 +2134,7 @@ export interface AuthUserField {
   enable_video?: Maybe<Scalars['String']>;
   permissions?: Maybe<Array<Maybe<Permissions>>>;
   iam_verified?: Maybe<Scalars['Boolean']>;
-}
+};
 
 export enum Permissions {
   AccessToAllConstructions = 'ACCESS_TO_ALL_CONSTRUCTIONS',
@@ -2142,7 +2168,7 @@ export enum Permissions {
   AccessToManageThreeDimensionalDesigns = 'ACCESS_TO_MANAGE_THREE_DIMENSIONAL_DESIGNS'
 }
 
-export interface CreateLoanInput {
+export type CreateLoanInput = {
   phone: Scalars['String'];
   age: Scalars['Int'];
   salary: Scalars['Float'];
@@ -2160,62 +2186,62 @@ export interface CreateLoanInput {
   name?: Maybe<Scalars['String']>;
   source?: Maybe<Scalars['Int']>;
   start_date?: Maybe<Scalars['Float']>;
-}
+};
 
-export interface PublicUserMutOps {
+export type PublicUserMutOps = {
   __typename?: 'PublicUserMutOps';
   create?: Maybe<PublicUser>;
-}
+};
 
 
-export interface PublicUserMutOpsCreateArgs {
+export type PublicUserMutOpsCreateArgs = {
   device_key: Scalars['String'];
   device_id?: Maybe<Scalars['String']>;
-}
+};
 
-export interface PublicUser {
+export type PublicUser = {
   __typename?: 'PublicUser';
   user?: Maybe<PublicUserData>;
   public_token?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ListingMutOps {
+export type ListingMutOps = {
   __typename?: 'ListingMutOps';
   increment?: Maybe<Scalars['Boolean']>;
   appraisal?: Maybe<Scalars['Boolean']>;
   report?: Maybe<Scalars['Boolean']>;
   verifyListingByOtp?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface ListingMutOpsIncrementArgs {
+export type ListingMutOpsIncrementArgs = {
   type?: Maybe<IncrementTypes>;
   id: Scalars['Int'];
-}
+};
 
 
-export interface ListingMutOpsAppraisalArgs {
+export type ListingMutOpsAppraisalArgs = {
   phone: Scalars['String'];
   id: Scalars['Int'];
   reason?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface ListingMutOpsReportArgs {
+export type ListingMutOpsReportArgs = {
   id: Scalars['Int'];
   content?: Maybe<Scalars['String']>;
   reason: ReportReasons;
-}
+};
 
 
-export interface ListingMutOpsVerifyListingByOtpArgs {
+export type ListingMutOpsVerifyListingByOtpArgs = {
   owner_otp: Scalars['String'];
   deed_code: Scalars['Float'];
   deed_img: Scalars['String'];
   owner_id: Scalars['Float'];
   owner_id_img?: Maybe<Scalars['String']>;
   id_type?: Maybe<DeedIdTypes>;
-}
+};
 
 export enum IncrementTypes {
   Views = 'views',
@@ -2240,46 +2266,46 @@ export enum ReportReasons {
   Other = 'other'
 }
 
-export interface WebMutOps {
+export type WebMutOps = {
   __typename?: 'WebMutOps';
   sendApp?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface WebMutOpsSendAppArgs {
+export type WebMutOpsSendAppArgs = {
   phone: Scalars['String'];
   type: AppType;
-}
+};
 
-export interface RequestMutOps {
+export type RequestMutOps = {
   __typename?: 'RequestMutOps';
   create?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface RequestMutOpsCreateArgs {
+export type RequestMutOpsCreateArgs = {
   type: RequestType;
   contract?: Maybe<Contract>;
   construction?: Maybe<Construction>;
-}
+};
 
 export enum RequestType {
   Contract = 'contract',
   Construction = 'construction'
 }
 
-export interface Contract {
+export type Contract = {
   owner_id: Scalars['Float'];
   tenant_id: Scalars['Float'];
   phone: Scalars['String'];
-}
+};
 
-export interface Construction {
+export type Construction = {
   type: ConstructionType;
   phone: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
-}
+};
 
 export enum ConstructionType {
   EngineeringDrawing = 'engineering_drawing',
@@ -2291,45 +2317,45 @@ export enum ConstructionType {
   BuildingsExamination = 'buildings_examination'
 }
 
-export interface VideoInput {
+export type VideoInput = {
   video: Scalars['String'];
   thumbnail: Scalars['String'];
   orientation?: Maybe<Orientation>;
-}
+};
 
-export interface HomePlansQryOps {
+export type HomePlansQryOps = {
   __typename?: 'HomePlansQryOps';
   listPurchasedPlans?: Maybe<HomePlans>;
   listPlanFiles?: Maybe<Array<Maybe<HomePlanFile>>>;
   getHomePlanFileSignedUrl?: Maybe<Scalars['String']>;
   agreement?: Maybe<Scalars['String']>;
-}
+};
 
 
-export interface HomePlansQryOpsListPurchasedPlansArgs {
+export type HomePlansQryOpsListPurchasedPlansArgs = {
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface HomePlansQryOpsListPlanFilesArgs {
+export type HomePlansQryOpsListPlanFilesArgs = {
   home_plan_id: Scalars['Int'];
-}
+};
 
 
-export interface HomePlansQryOpsGetHomePlanFileSignedUrlArgs {
+export type HomePlansQryOpsGetHomePlanFileSignedUrlArgs = {
   home_plan_id: Scalars['Int'];
   home_plan_file_id: Scalars['Int'];
-}
+};
 
-export interface HomePlanFile {
+export type HomePlanFile = {
   __typename?: 'HomePlanFile';
   id?: Maybe<Scalars['Int']>;
   type?: Maybe<HomePlanFileType>;
   s3_file_name?: Maybe<Scalars['String']>;
   download_file_name?: Maybe<Scalars['String']>;
   home_plan_id?: Maybe<Scalars['Int']>;
-}
+};
 
 export enum HomePlanFileType {
   Construction = 'construction',
@@ -2344,7 +2370,7 @@ export enum HomePlanFileType {
   Other = 'other'
 }
 
-export interface HomePlansPartnerMutOps {
+export type HomePlansPartnerMutOps = {
   __typename?: 'HomePlansPartnerMutOps';
   addHomePlanFile?: Maybe<HomePlanFile>;
   removeHomePlanFile?: Maybe<Scalars['Boolean']>;
@@ -2353,51 +2379,51 @@ export interface HomePlansPartnerMutOps {
   updateStatus?: Maybe<Scalars['Boolean']>;
   updateStatusAsAdmin?: Maybe<Scalars['Boolean']>;
   editHomePlanDownloadFileName?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface HomePlansPartnerMutOpsAddHomePlanFileArgs {
+export type HomePlansPartnerMutOpsAddHomePlanFileArgs = {
   home_plan_id: Scalars['Int'];
   type: HomePlanFileType;
   s3_file_name: Scalars['String'];
   download_file_name: Scalars['String'];
-}
+};
 
 
-export interface HomePlansPartnerMutOpsRemoveHomePlanFileArgs {
+export type HomePlansPartnerMutOpsRemoveHomePlanFileArgs = {
   home_plan_file_id: Scalars['Int'];
-}
+};
 
 
-export interface HomePlansPartnerMutOpsCreateArgs {
+export type HomePlansPartnerMutOpsCreateArgs = {
   data: HomePlanInput;
-}
+};
 
 
-export interface HomePlansPartnerMutOpsUpdateArgs {
+export type HomePlansPartnerMutOpsUpdateArgs = {
   id: Scalars['Int'];
   data: HomePlanInput;
-}
+};
 
 
-export interface HomePlansPartnerMutOpsUpdateStatusArgs {
+export type HomePlansPartnerMutOpsUpdateStatusArgs = {
   id: Scalars['Int'];
   status: HomePlanStatuses;
-}
+};
 
 
-export interface HomePlansPartnerMutOpsUpdateStatusAsAdminArgs {
+export type HomePlansPartnerMutOpsUpdateStatusAsAdminArgs = {
   id: Scalars['Int'];
   status: HomePlanStatuses;
-}
+};
 
 
-export interface HomePlansPartnerMutOpsEditHomePlanDownloadFileNameArgs {
+export type HomePlansPartnerMutOpsEditHomePlanDownloadFileNameArgs = {
   home_plan_file_id: Scalars['Int'];
   download_file_name: Scalars['String'];
-}
+};
 
-export interface HomePlanInput {
+export type HomePlanInput = {
   name: Scalars['String'];
   code: Scalars['String'];
   area: Scalars['Int'];
@@ -2423,9 +2449,9 @@ export interface HomePlanInput {
   basement?: Maybe<Scalars['Boolean']>;
   extension?: Maybe<Scalars['Boolean']>;
   category: Scalars['Int'];
-}
+};
 
-export interface HomePlansPartnerQryOps {
+export type HomePlansPartnerQryOps = {
   __typename?: 'HomePlansPartnerQryOps';
   getUploadFileSignedUrl?: Maybe<Scalars['String']>;
   getHomePlanFiles?: Maybe<Array<Maybe<HomePlanFile>>>;
@@ -2434,102 +2460,102 @@ export interface HomePlansPartnerQryOps {
   listAsArchitect?: Maybe<HomePlans>;
   getPlanPurchases?: Maybe<HomePlanPurchases>;
   listHomePlansPartners?: Maybe<HomePlansPartners>;
-}
+};
 
 
-export interface HomePlansPartnerQryOpsGetUploadFileSignedUrlArgs {
+export type HomePlansPartnerQryOpsGetUploadFileSignedUrlArgs = {
   home_plan_id: Scalars['Int'];
   type: HomePlanFileType;
   s3_file_name: Scalars['String'];
-}
+};
 
 
-export interface HomePlansPartnerQryOpsGetHomePlanFilesArgs {
+export type HomePlansPartnerQryOpsGetHomePlanFilesArgs = {
   home_plan_id: Scalars['Int'];
-}
+};
 
 
-export interface HomePlansPartnerQryOpsGetHomePlanFileSignedUrlAsAdminArgs {
+export type HomePlansPartnerQryOpsGetHomePlanFileSignedUrlAsAdminArgs = {
   home_plan_file_id: Scalars['Int'];
-}
+};
 
 
-export interface HomePlansPartnerQryOpsListAsAdminArgs {
+export type HomePlansPartnerQryOpsListAsAdminArgs = {
   partner_id?: Maybe<Scalars['Int']>;
   status?: Maybe<HomePlanStatuses>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   order_by?: Maybe<HomePlansSortOptions>;
-}
+};
 
 
-export interface HomePlansPartnerQryOpsListAsArchitectArgs {
+export type HomePlansPartnerQryOpsListAsArchitectArgs = {
   status?: Maybe<HomePlanStatuses>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   order_by?: Maybe<HomePlansSortOptions>;
-}
+};
 
 
-export interface HomePlansPartnerQryOpsGetPlanPurchasesArgs {
+export type HomePlansPartnerQryOpsGetPlanPurchasesArgs = {
   home_plan_id: Scalars['Int'];
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface HomePlansPartnerQryOpsListHomePlansPartnersArgs {
+export type HomePlansPartnerQryOpsListHomePlansPartnersArgs = {
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface HomePlanPurchases {
+export type HomePlanPurchases = {
   __typename?: 'HomePlanPurchases';
   purchases?: Maybe<Array<Maybe<HomePlanPurchase>>>;
   total?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface HomePlanPurchase {
+export type HomePlanPurchase = {
   __typename?: 'HomePlanPurchase';
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface HomePlansPartners {
+export type HomePlansPartners = {
   __typename?: 'HomePlansPartners';
   partners?: Maybe<Array<Maybe<HomePlansPartner>>>;
   total?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface HomePlansPartner {
+export type HomePlansPartner = {
   __typename?: 'HomePlansPartner';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ThreeDimensionalMutOps {
+export type ThreeDimensionalMutOps = {
   __typename?: 'ThreeDimensionalMutOps';
   createRequest?: Maybe<ThreeDimensionalDesingRequest>;
   likeDesign?: Maybe<Scalars['Boolean']>;
   dislikeDesign?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface ThreeDimensionalMutOpsCreateRequestArgs {
+export type ThreeDimensionalMutOpsCreateRequestArgs = {
   data: ThreeDimensionalDesingRequestInput;
-}
+};
 
 
-export interface ThreeDimensionalMutOpsLikeDesignArgs {
+export type ThreeDimensionalMutOpsLikeDesignArgs = {
   design_id: Scalars['Int'];
-}
+};
 
 
-export interface ThreeDimensionalMutOpsDislikeDesignArgs {
+export type ThreeDimensionalMutOpsDislikeDesignArgs = {
   design_id: Scalars['Int'];
-}
+};
 
-export interface ThreeDimensionalDesingRequestInput {
+export type ThreeDimensionalDesingRequestInput = {
   design_id: Scalars['Int'];
   width: Scalars['Float'];
   length: Scalars['Float'];
@@ -2539,9 +2565,9 @@ export interface ThreeDimensionalDesingRequestInput {
   videos?: Maybe<Array<Maybe<Scalars['String']>>>;
   pdfs?: Maybe<Array<Maybe<Scalars['String']>>>;
   autocad_files?: Maybe<Array<Maybe<Scalars['String']>>>;
-}
+};
 
-export interface ThreeDimensionalDesingRequest {
+export type ThreeDimensionalDesingRequest = {
   __typename?: 'ThreeDimensionalDesingRequest';
   id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['Int']>;
@@ -2560,7 +2586,7 @@ export interface ThreeDimensionalDesingRequest {
   user_phone?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
-}
+};
 
 export enum ThreeDimensionalDesignRequestStatus {
   New = 'new',
@@ -2571,46 +2597,46 @@ export enum ThreeDimensionalDesignRequestStatus {
   Rejected = 'rejected'
 }
 
-export interface ThreeDimensionalQryOps {
+export type ThreeDimensionalQryOps = {
   __typename?: 'ThreeDimensionalQryOps';
   getConfigs?: Maybe<ThreeDimensionalConfigs>;
   list?: Maybe<AuthThreeDimensionalDesigns>;
   get?: Maybe<AuthThreeDimensionalDesign>;
   getSimilarDesigns?: Maybe<Array<Maybe<AuthThreeDimensionalDesign>>>;
   myFav?: Maybe<AuthThreeDimensionalDesigns>;
-}
+};
 
 
-export interface ThreeDimensionalQryOpsListArgs {
+export type ThreeDimensionalQryOpsListArgs = {
   category_id?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ThreeDimensionalQryOpsGetArgs {
+export type ThreeDimensionalQryOpsGetArgs = {
   design_id: Scalars['Int'];
-}
+};
 
 
-export interface ThreeDimensionalQryOpsGetSimilarDesignsArgs {
+export type ThreeDimensionalQryOpsGetSimilarDesignsArgs = {
   design_id: Scalars['Int'];
-}
+};
 
 
-export interface ThreeDimensionalQryOpsMyFavArgs {
+export type ThreeDimensionalQryOpsMyFavArgs = {
   category_id?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
-export interface AuthThreeDimensionalDesigns {
+export type AuthThreeDimensionalDesigns = {
   __typename?: 'AuthThreeDimensionalDesigns';
   total?: Maybe<Scalars['Int']>;
   designs?: Maybe<Array<Maybe<AuthThreeDimensionalDesign>>>;
-}
+};
 
-export interface AuthThreeDimensionalDesign {
+export type AuthThreeDimensionalDesign = {
   __typename?: 'AuthThreeDimensionalDesign';
   id?: Maybe<Scalars['Int']>;
   name_en?: Maybe<Scalars['String']>;
@@ -2629,46 +2655,46 @@ export interface AuthThreeDimensionalDesign {
   status?: Maybe<ThreeDimensionalDesignDesignStatus>;
   likes?: Maybe<Scalars['Float']>;
   liked?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface ThreeDimensionalPartnerMutOps {
+export type ThreeDimensionalPartnerMutOps = {
   __typename?: 'ThreeDimensionalPartnerMutOps';
   createDesign?: Maybe<ThreeDimensionalDesign>;
   createCategory?: Maybe<ThreeDimensionalDesignsCategory>;
   updateDesign?: Maybe<Scalars['Boolean']>;
   updateDesignStatus?: Maybe<Scalars['Boolean']>;
   updateRequestStatus?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerMutOpsCreateDesignArgs {
+export type ThreeDimensionalPartnerMutOpsCreateDesignArgs = {
   data: ThreeDimensionalDesignInput;
-}
+};
 
 
-export interface ThreeDimensionalPartnerMutOpsCreateCategoryArgs {
+export type ThreeDimensionalPartnerMutOpsCreateCategoryArgs = {
   data?: Maybe<ThreeDimensionalDesignsCategoryInput>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerMutOpsUpdateDesignArgs {
+export type ThreeDimensionalPartnerMutOpsUpdateDesignArgs = {
   design_id: Scalars['Int'];
   data: ThreeDimensionalDesignInput;
-}
+};
 
 
-export interface ThreeDimensionalPartnerMutOpsUpdateDesignStatusArgs {
+export type ThreeDimensionalPartnerMutOpsUpdateDesignStatusArgs = {
   design_id: Scalars['Int'];
   status?: Maybe<ThreeDimensionalDesignDesignStatus>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerMutOpsUpdateRequestStatusArgs {
+export type ThreeDimensionalPartnerMutOpsUpdateRequestStatusArgs = {
   request_id: Scalars['Int'];
   status?: Maybe<ThreeDimensionalDesignRequestStatus>;
-}
+};
 
-export interface ThreeDimensionalDesignInput {
+export type ThreeDimensionalDesignInput = {
   name_en: Scalars['String'];
   name_ar: Scalars['String'];
   category_id: Scalars['Int'];
@@ -2680,53 +2706,53 @@ export interface ThreeDimensionalDesignInput {
   specs_ar: Array<Maybe<Scalars['String']>>;
   imgs: Array<Maybe<Scalars['String']>>;
   cover_img: Scalars['String'];
-}
+};
 
-export interface ThreeDimensionalDesignsCategoryInput {
+export type ThreeDimensionalDesignsCategoryInput = {
   name_en?: Maybe<Scalars['String']>;
   name_ar?: Maybe<Scalars['String']>;
-}
+};
 
-export interface ThreeDimensionalPartnerQryOps {
+export type ThreeDimensionalPartnerQryOps = {
   __typename?: 'ThreeDimensionalPartnerQryOps';
   listPartners?: Maybe<Array<Maybe<Partner>>>;
   listPartnerDesigns?: Maybe<ThreeDimensionalDesigns>;
   listRequests?: Maybe<ThreeDimensionalDesingRequests>;
   getDesignById?: Maybe<ThreeDimensionalDesign>;
   getRequestById?: Maybe<ThreeDimensionalDesingRequest>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerQryOpsListPartnerDesignsArgs {
+export type ThreeDimensionalPartnerQryOpsListPartnerDesignsArgs = {
   partner_id?: Maybe<Scalars['Int']>;
   status?: Maybe<ThreeDimensionalDesignDesignStatus>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerQryOpsListRequestsArgs {
+export type ThreeDimensionalPartnerQryOpsListRequestsArgs = {
   partner_id?: Maybe<Scalars['Int']>;
   status?: Maybe<ThreeDimensionalDesignRequestStatus>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
-}
+};
 
 
-export interface ThreeDimensionalPartnerQryOpsGetDesignByIdArgs {
+export type ThreeDimensionalPartnerQryOpsGetDesignByIdArgs = {
   design_id: Scalars['Int'];
-}
+};
 
 
-export interface ThreeDimensionalPartnerQryOpsGetRequestByIdArgs {
+export type ThreeDimensionalPartnerQryOpsGetRequestByIdArgs = {
   request_id: Scalars['Int'];
-}
+};
 
-export interface ThreeDimensionalDesingRequests {
+export type ThreeDimensionalDesingRequests = {
   __typename?: 'ThreeDimensionalDesingRequests';
   total?: Maybe<Scalars['Int']>;
   requests?: Maybe<Array<Maybe<ThreeDimensionalDesingRequest>>>;
-}
+};
 
 export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2875,7 +2901,6 @@ export type ListFeaturedQuery = (
 
 export type ListQueryVariables = Exact<{
   from?: Maybe<Scalars['Int']>;
-  polygon?: Maybe<Array<LocationInput> | LocationInput>;
   size?: Maybe<Scalars['Int']>;
   sort?: Maybe<SortInput>;
   structure?: Maybe<Scalars['Boolean']>;
@@ -2937,6 +2962,27 @@ export type GetDistrictRatingQuery = (
         { __typename?: 'RateItemOutput' }
         & Pick<RateItemOutput, 'car_parking_issues' | 'clean' | 'comment' | 'created_time' | 'electricity' | 'elementary_school' | 'fiber' | 'general_issues' | 'high_school' | 'id' | 'internet' | 'kindergarten' | 'medical_center' | 'medical_center_review' | 'middle_school' | 'park' | 'pharmacies' | 'rate' | 'universities' | 'water'>
       )>> }
+    )> }
+  )> }
+);
+
+export type LoginMutationVariables = Exact<{
+  phone?: Maybe<Scalars['String']>;
+  pw?: Maybe<Scalars['String']>;
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { User?: Maybe<(
+    { __typename?: 'UserMutOps' }
+    & { login?: Maybe<(
+      { __typename?: 'AuthUser' }
+      & Pick<AuthUser, 'token'>
+      & { user?: Maybe<(
+        { __typename?: 'AuthUserField' }
+        & Pick<AuthUserField, 'user_id' | 'name' | 'phone' | 'img'>
+      )> }
     )> }
   )> }
 );
@@ -3271,11 +3317,10 @@ export const ListFeaturedDocument = gql`
     }
   }
 export const ListDocument = gql`
-    query list($from: Int = 0, $polygon: [LocationInput!] = {lat: 1.5, lng: 1.5}, $size: Int = 0, $sort: SortInput = {}, $structure: Boolean = false, $where: WhereInput = {}) {
+    query list($from: Int = 0, $size: Int = 70, $sort: SortInput = {create_time: desc, has_img: desc}, $structure: Boolean = false, $where: WhereInput = {}) {
   Web {
     find(
       from: $from
-      polygon: $polygon
       size: $size
       sort: $sort
       structure: $structure
@@ -3458,6 +3503,32 @@ export const GetDistrictRatingDocument = gql`
   })
   export class GetDistrictRatingGQL extends Apollo.Query<GetDistrictRatingQuery, GetDistrictRatingQueryVariables> {
     document = GetDistrictRatingDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoginDocument = gql`
+    mutation login($phone: String = "", $pw: String = "") {
+  User {
+    login(phone: $phone, pw: $pw) {
+      token
+      user {
+        user_id
+        name
+        phone
+        img
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
+    document = LoginDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

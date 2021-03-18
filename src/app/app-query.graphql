@@ -267,9 +267,9 @@ query listFeatured {
   }
 }
 
-query list($from: Int = 0, $polygon: [LocationInput!] = {lat: 1.5, lng: 1.5}, $size: Int = 0, $sort: SortInput = {}, $structure: Boolean = false, $where: WhereInput = {}) {
+query list($from: Int = 0, $size: Int = 70, $sort: SortInput = {create_time: desc, has_img: desc}, $structure: Boolean = false, $where: WhereInput = {}) {
   Web {
-    find(from: $from, polygon: $polygon, size: $size, sort: $sort, structure: $structure, where: $where) {
+    find(from: $from, size: $size, sort: $sort, structure: $structure, where: $where) {
       listings {
         ac
         address
@@ -425,6 +425,20 @@ query getDistrictRating($district_id: Int = 0, $offset: Int = 0) {
       rate
       rate_count
       streets_rate
+    }
+  }
+}
+
+mutation login($phone: String = "", $pw: String = "") {
+  User {
+    login(phone: $phone, pw: $pw) {
+      token
+      user {
+        user_id
+        name
+        phone
+        img
+      }
     }
   }
 }

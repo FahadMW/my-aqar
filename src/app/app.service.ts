@@ -74,7 +74,7 @@ export class AppService {
                 category: { eq: 1 }
                 district_id: { inar: ${JSON.stringify(this.search.districts)} }
                 rent_period: { eq: ${this.search.rentPeriod} }
-                beds: { eq: ${this.search.beds} }
+                beds: { inar: ${JSON.stringify(this.search.beds)} }
                 family: { eq: 1 }
                 age: { lte: ${this.search.age} }
                 price: { gte: ${this.search.priceGte}, lte: ${this.search.priceLte} }

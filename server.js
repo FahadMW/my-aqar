@@ -41,50 +41,58 @@ const writeFile = (
   });
 };
 
-app.get("/flats", (req, res) => {
+app.get("/:user/flats", (req, res) => {
   readFile((data) => {
-    res.send(data.flats);
+    const user = req.params["user"].toLowerCase();
+    res.send(data[user] ? data[user].flats : null);
   }, true);
 });
 
-app.post("/flats", (req, res) => {
+app.post("/:user/flats", (req, res) => {
   readFile((data) => {
-    data.flats[req.body.id] = req.body;
+    const user = req.params["user"].toLowerCase();
+    if (data[user]) data[user].flats[req.body.id] = req.body;
+    else data[user] = {flats: {[req.body.id]: req.body}};
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });
   }, true);
 });
 
-app.delete("/flats/:id", (req, res) => {
+app.delete("/:user/flats/:id", (req, res) => {
   readFile((data) => {
+    const user = req.params["user"].toLowerCase();
     const id = req.params["id"];
-    delete data.flats[id];
+    if (data[user] && data[user].flats) delete data[user].flats[id];
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });
   }, true);
 });
 
-app.get("/saved-search", (req, res) => {
+app.get("/:user/saved-search", (req, res) => {
   readFile((data) => {
-    res.send(data.savedSearch);
+    const user = req.params["user"].toLowerCase();
+    res.send(data[user] ? data[user].savedSearch : null);
   }, true);
 });
 
-app.post("/saved-search", (req, res) => {
+app.post("/:user/saved-search", (req, res) => {
   readFile((data) => {
-    data.savedSearch[req.body.id] = req.body;
+    const user = req.params["user"].toLowerCase();
+    if (data[user]) data[user].savedSearch[req.body.id] = req.body;
+    else data[user] = {savedSearch: {[req.body.id]: req.body}};
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });
   }, true);
 });
 
-app.delete("/saved-search/:id", (req, res) => {
+app.delete("/:user/saved-search/:id", (req, res) => {
   readFile((data) => {
+    const user = req.params["user"].toLowerCase();
     const id = req.params["id"];
-    delete data.savedSearch[id];
+    if (data[user] && data[user].savedSearch) delete data[user].savedSearch[id];
     writeFile(JSON.stringify(data, null, 2), () => {
       res.status(200).send();
     });

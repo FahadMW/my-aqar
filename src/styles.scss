@@ -1,4 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+$font-family: 'Markazi Text';
+
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: $font-family,
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+@include mat-core($custom-typography);
+$app-primary: mat-palette($mat-indigo);
+$app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$app-theme:   mat-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+  )
+));
+@include angular-material-theme($app-theme);
+
 .row {
     --bs-gutter-x: 1rem;
     --bs-gutter-y: 1rem;
@@ -6,4 +25,9 @@
 
 .half-opacity {
     opacity: 0.5;
+}
+
+:root {
+    --bs-font-sans-serif: 'Markazi Text';
+    --bs-font-monospace: 'Markazi Text';
 }
