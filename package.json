@@ -6,6 +6,7 @@
     "start": "node server.js",
     "serve": "nge serve",
     "build": "ng build --prod",
+    "github": "ng build --output-path docs --base-href my-aqar --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
